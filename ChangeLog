@@ -1,0 +1,1487 @@
+0.451 @ 02.02.2008 <DarKRaveR>
+- Changed Project URL within Hub to new URL
+- Added new perl-flags processing to fix linking problems on some systems
+- Made execinfo/stacktraces conditional, since not every OS supports it.
+- Removed crypt.h check completely and switched to crypt() unistd.h
+- Update perl.h check to honor header dependencies
+- Added feature request #1816767 (Shakespeer in default allowed clients list)
+- Applied Centurion's single space disconnect patch
+- Applied Centurion's unregged url crash fix
+- Applied Centurion's typo fix
+- Overhauled NLS for conditional compilation
+- Renamed --disbale-lang to --disable-nls & added conditional compiling
+- Refactored semaphore ops
+- Corrected cleanup code when exiting
+- Fixed unused params warnings
+\-- Removed unused params from function decls/defs
+  \-- Modified all calls to reflect changes
+- Fixed an issue in alarm handler with uninitialized var
+- Fixed a bunch of warnings
++ Added new logging backend
+- Changed all calls accordingly
++ Added syslog support
++ Added stacktrace function/handler
++ Added --enable-debug to configure for extended debugging/backtrace
+- Rewrote configure.ac (replacing configure.in) with improved output
+0.450 @ 12.10.2007
+- applied DarKRaver's VERSION and configure.in patch
+- applied DarKRaver's code cleanup patch
+- applied DarKRaver's alarm_handler Posix Issue patch
+- applied DarKRaver's Command Line Option Processing patch
+- removed bug with '!seen ' (without nickname) command showing the last search
+- fixed bug allowing spaces in !setpass function
+- added missing notification about successful reporting somebody using !report command
+- added possibility of resetting share and users records with !resetrecord command (admins/owners)
+- using hub address in message string is no longer recognize as spamming
+- added new variable: count_bots - if set to 0 bots will not be counted as users, default is 1 (on)
+- new language variables:
+* lp_reportsend, "Your report was send to the ops"
+* lp_recordresetted, "Share and users records has been resetted"
+* lp_he129, "resets share and users records"
+* lp_us135, "Reset records"
+
+0.441 @ 02.07.2007
+- fixed a critical bug with !tbanip and !tbannick functions which can cause segmentation faults
+- changed hide_allshare variable behaviour
+* 0 - off
+* 1 - zero all users' share on the userlist
+* 2 - zero all users' share on the userlist and disable search
+- better look of !reglist command
+- removed obsolete entries from ./configure
+- added --disable-lang flag info to ./configure --help
+- fixed cutting of lp_class(0-9) names longer than 15 characters in reglist (max is 30 now)
+
+0.440 @ 15.05.2007
+- removed Valknut from exclusion for disconnect on sending $GetINFO to the hub since wxDCGUI (ex-Valknut) supports NoGetINFO
+- changed all error handlers to work with verbosity = 0
+- fixed !addfile command to require at least two words (command and text inside)
+- some fixes for better threads safety
+- fixed +fs command from showing inproper large number of slots
+- fixed bug with cutting too long MOTD (and also chat messages if no_chat_for_chatgagged is 1) by uprintf function (limited to 4095 chars) by replacing it with send_to_user function (unlimited)
+- fixed bug with possiblility of showing inproper ban reasons for IP-ban ranges and ipgag ranges
+- fixed possible buffer overruns in functions checking for banreason/ipgagreason
+
+0.439 @ 10.05.2007
+- possibility of using !ban/!tban commands on all not-opped classes
+- fixed bug with blocking all messages after setting banwords to blank
+- fixed bugs with unsafe semaphores opening for more than one thread at the same time
+- IP bans/allows and IP range bans/alows system instead of global IP bans/allows
+* possibility of IP-banning (with exact IP ban) user who has both IP range banned and allowed
+- made exact IP ban reasons stronger than IP range ban reasons
+- fixed possible problems with functions that check user's IP and processing it
+- fixed bug with inproper displaying of first user's warning
+- changed 'banlist' to 'nickbanlist' for nick-based banning functions
+- small code cleaning and fixing using splint
+- removed language variables:
+* lp_cannotkickuser
+* lp_cannotbanuser
+
+0.438 @ 04.05.2007
+- fixed notifications send on +regme/+protectme (lack of nickname)
+- removed max_desc_len (set it stickly, max 120 characters now, including TAG) and max_email_len (set it stickly, max 50 characters now) variables
+- renamed the variable hub_full_mess to hub_full_msg
+- fixed bug in !tban, !tbanip, !tbannick commands with taking the first letter form nickname/IP if period was not given complete (eg. !tban 44 nick reason instead of !tban 44m nick reason), now lack of s,m,h,d,w will switch temp ban to minutes (eg. !tban 44 nick reason will ban user for 44 minutes)
+- fixed another total_share mismatch possibility
+- some fixes to alarm_signal function to provide better thread safety
+- fixed possible problems with max_regular_from_one_ip workaround (now it's kicking only one user who try to connect)
+- fixed bug with !gag/!gagip commands if there was not reason given but there were some extra spaces after nick/IP
+
+0.437 @ 30.04.2007
+- fixed bug ingoring one-char nickname entries in reglist
+- fixed bug unshowing the new nickname on !regme <pass>/!protectme <pass>
+- fixed bug with showing notifications about +addreg to opchat instead of bot if show_notifications is set to 2
+- fixed bug with missing delimiter between commands after kicking from nicklist
+- removed uploading data to hublist (hublist_upload and public_hub_host variables, forking new process every alarm_time) since hublists use their own pingers (old method can be easily faked)
+- removed banword1[,2,3,4,5] variables and replaced them with new unlimited banwords variable
+* unwanted words or phrases has to be delimited with ";" char eg:
+** "!set banwords word;second_word;ugly phrase1;ugly phrase2"
+- added new feature of sending scheduled message to main chat for all users
+* works with alarm_signal function
+* !set scheduledmsg to set the message
+* new variable: send_scheduled - period of sending scheduledmsg (value * 15 minutes)
+
+0.436 @ 27.04.2007
+- fixed the bug with total_share mismatch
+- re-added missing autofav on alarm_signal feature
+- fixed bug in !ui command (showing wrong IP)
+- added missing removal of ban reasons on unban/unnickban
+- added new variable: deny_main_http - if set to 1 (default), filters main chat messages of REGULAR users for occurance of:
+* http:// and www. strings
+* IP addresses
+** if found, blocks message and reports user to ops
+
+0.435 @ 24.04.2007
+- !url works the same as !geturl
+- forced disconnecting for using obsolete  $GetINFO messages with an exception for Valknut
+- removed no_tag_ban variable, users with class less/equal check_class have to have valid TAG description
+- changed forbchars buffer from 10 to 30 characters max
+- added new variable !set nickchars - list of characters that are allowed for REGULAR users, using other characters in nickname will make user kicked from the hub, "!set nickchars " disables nickname check
+- fixed possible bugs in !unhideme, !setpass, !whohubs, !whoslots, !whoratio commands
+- fixed hub records notyfing and searching for incomplete files to be runned only for forked proccess in alarm_signal
+- huge code cleaning
+* replaced sprinft with safe snprintf where possible
+* removed old dead entries
+* reduced number of function variables/pointers
+- new language variable:
+* lp_nickchar, "nickname contains unallowed character(s)"
+
+0.434 @ 18.04.2007
+- added re-reading config variables every 5 minutes
+- possibility of changing registered user's nickname for CHEEFs, ADMINs, OWNERs: !changeregnick nick newnick
+* will not work if nick isn't registered or newnick is already taken
+* CHEEFs are allowed to change nicknames for all not opped users, ADMINs for all classes below ADMIN, OWNER for all
+- possibility of changing registered user's class for CHEEFs, ADMINs, OWNERs: !changeregnick nick class
+* where class is: 0-PROTECTED,1-REG,2-VIP,3-KVIP,4-OP,5-CHEEF,6-ADMIN,7-OWNER
+* will not work if nick isn't registered
+* CHEEFs are allowed to change classes for (and to) all not opped users, ADMINs for all classes below ADMIN, OWNER for all
+- made processing functions using data loaded to memory from files in fileio.c more safe
+- fixed max strings' lenght in set_var() and set_lang(); sorted lang variables in lang.c and main.h
+- not sending 'searching was disabled on this hub' if this is a TTH search (no spam fix)
+- added missing non_human_user_list->outbuf=NULL; to perl_utils.c (could make scripts not loaded with the hub until !reloadscripts was used)
+- fixed OWNER and ADMIN classes to not be affected by ipgags
+- added possibility of adding reasons for ipgags
+- added logging hub topics if log_main_chat is set to 1 (useful with pisg)
+- removed lang variable: lp_sharerecalculated
+- new lang variables:
+* lp_accountupdated, "Account updated successfully"
+* lp_nopermission, "Operation not permitted"
+* lp_he127, "changes the class of the registered user"
+* lp_he128, "changes the nickname of the registered user"
+* lp_us133, "Change reg class"
+* lp_us134, "Change reg nick"
+
+0.433 @ 12.04.2007
+- removed config writing and autochecking for free slots from alarm_signal() function
+- added !reloadfile command for OWNERs - possibility of reloading file edited from shell
+* files that can be reloaded: config, reglist, banlist, nickbanlist, allowlist, regme, rules, autofavmsg, motd, motd_prot, motd_reg, motd_vip, motd_kvip, motd_op, motd_cheef, motd_admin
+* !reloadfile all - reloads all above files to memory
+- not storing messages denied because of banwords in last 10/20 messages and not allowing using banwords in commands (eg. +me)
+- not sending search spam messages for TTH searches, just ignoring them
+- made nickbans affecting all unopped classes
+- !remwarn and !getwarn are working for all opped classes from now
+- forced better memory allocating in send_user_info()
+- added microdc2 to default allowed_clients
+- added missing modes in description for DC++ 0.68 and 0.6811
+- !banlist command shows both banlist and nickbanlist, !(get)nickbanlist was removed
+- added new variable: show_class_in_desc - showing user's class in description
+* 0-off,1-all regged,2-REG+,3-VIP+,4-KVIP+,5-OP+,6-CHEEF+,7-ADMIN+
+- fixed bug in !banip and !bannick command causing hub crashes if show_actions was set to more than 0
+- new language variables:
+* lp_he126, "reloads file edited from shell to memory"
+* lp_us132, "Reload file to memory"
+* lp_wasreloaded, "was reloaded to memory"
+- removed lang variables: lp_he047, lp_us047
+
+0.432 @ 01.04.2007
+- fixed odch::count_users() and odch::get_variable("total_share") to not use semaphores
+- !away/!back and autoaway stuff will be not send from users who has hidden their presence anymore
+- added 'weeks' to time/uptime strings and made them to not display 0 weeks/days/hours/minutes
+- removed oDC and DC from default allowed_cilents because they're not compatible with DC++ new versions anymore
+- changed variables behaviour at hub start to be set to default first and then read from config (should avoid some problems)
+- fixed bug than unallow to read empty entries from config for:
+* partmsg, welcomeadmin, welcomecheef, welcomeop, welcomekvip, welcomevip, welcomereg, regonlymsg, banmsg
+- if autodetection of hub hostname fails, hub_hostname is set to 127.0.0.1
+- made !unbannick alias for !unnickban command due to a lot of mistakes
+- forced new user variable user->ipbanned instead an old user_ip_is_banned due to problems
+- fixed bad working odch::check_if_registered perl function
+- fixed 2 possible memleaks in script parent parsing process
+
+0.431 @ 29.03.2007
+- replaced old warning system with new one supporting warning reasons, date and user who added warning 
+* if user has any warnings they will be displayed in private message from botnick while logging in
+* fell free to delete 'warnings' file, data is now stored in 'warnfile'
+- fixed bug with no reloading files to memory after changes in files made by scripts (reglist, banlist, nickbanlist, allowlist)
+- removed an old broken system of cutting too long main chat messages (cut_string_to, cut_reg_msg) and created the new correct one
+- added missing reason field to !lasttemp, !lastperm
+- fixed banning function to show more proper information to users
+- added showing !banip/!banick usage to !lastperm and !tbanip/!tbannick usage to !lasttemp
+- renamed !records command to !record
+- removed nickname before is kicking... because:... strings - works the same well without that
+- user in active mode is kicked for having.bc! files (torrent incomplete files) if kick_for_incomplete is set to 1
+- added new filtering main chat messages system for non-opped users
+* new variables: banword1, banword2, banword3, banword4, banword5
+* if banword1 or other is set, hub is looing for it's presence in string send to main chat
+* if string is found, message is not delivered and warning is send to all opped users
+* could be word or phrase, max 50 characters for each banword
+* words/phrases are cased insensitive
+- removed odch::get_flag perl script command, DC++ is not supporting away modes
+- removed unworking perl script commands: 
+* odch::check_if_banned, odch::check_if_allowed, odch::get_description, odch::get_email, odch::get_connection
+- fixed unworking/bad working perl script commands: 
+* odch::get_user_list, odch::count_users, odch::kick_user, odch::get_share
+- added odch::gag_user and odch::ungag_user perl functions
+** syntax: 
+* odch::gag_user($user, 1); - gag chat
+* odch::gag_user($user, 2); - gag download
+* odch::gag_user($user, 3); - gag search
+* odch::ungag($user); - ungag all
+- removed obsolete perl functions: odch::get_type, odch::get_version
+- new language variable
+* lp_banworddetected, "Banword detected from"
+
+0.430 @ 27.03.2007
+- fixed bug with sending main chat messages for NON_LOGGED users if no_chat_for_chatgagged was set to 1
+- fixed clockbot to be properly counted in total_users after !set clockbot command
+- fixed bug caused sending UserIP before MyINFO (no IP was send to ops while user was logging in)
+- fixed bug with variables that were not read properly from config file after reboot
+- fixed bug with not re-adding user_infos to script parsing process after !reloadscripts
+- organized variables in fileio.c/main.h in the same order as in config file and added comments to them
+- added into about !ban usage to !lastperm and !tban to !lasttemp
+- added missing priv notifications for banned users while trying to connect
+- removed all redirect hosts system and forced the new one
+* removed variables redirect_host0 - redirect_host9
+** new variables:
+* redirect_host_kickban
+* redirect_host_minshare
+* redirect_host_maxshare
+* redirect_host_maxhubs
+* redirect_host_minslots
+* redirect_host_maxslots
+* redirect_host_ratio
+* redirect_host_client
+* redirect_host_connlimit
+* redirect_host_hubfull
+* redirect_host_regonly
+** !set redirect_host_all changes all above variables
+- new lang variable
+* lp_unfinishedfiles, "unfinished files in share"
+
+0.429 @ 25.03.2007
+- removed count_all_users() function and replaced it with a simple int variable total_users (decreased semaphore using)
+- added new variable: kick_for_incomplete, if set to 1 kicks users in active mode
+for having incomplete files in share like .dctmp, .part.met, INCOMPLETE~
+- readded "reason:" word to away/autoaway (seems to looks better with this)
+- readded user->outbuf protection with new total_users variable, and changed MAX_BUF_SIZE back to 100000
+- fixed rls_motd() to reload releases shown in MOTD properly after !addrls
+- made [AWAY] description add independent from [A],[P] or [PROXY]
+- Non_logged_in_user will not be checked for whohubs/whoslots/whoratio
+- added hub address string to 'you were registered'/'registered new user' messages
+- reason is required every time when using !ban command
+- added min_usercommand_class variable - minimum class that gets hub menu after logging in (default 0 = all)
+* note that min_command_class can override this
+- added !drop command for admins/owners (silent kick without reason, just disconnecting)
+- resized lp_notenoughslots, lp_toomanyhubs, lp_toomanyslots, lp_tooolddcppver to 100 chars max
+- new lang variables:
+* lp_wasdropped, "was dropped from"
+* lp_he122, "bans temporary user's IP and nickname"
+* lp_he123, "bans temporary IP"
+* lp_he124, "bans temporary nickname"
+* lp_he125, "disconnects user from the hub"
+* lp_us128, "Temp ban user"
+* lp_us129," Temp ban IP"
+* lp_us130, "Temp ban nick"
+* lp_us131, "Disconnect user"
+- changed lang variables
+* lp_he044, "bans permanently IP"
+* lp_he045, "bans permanently nickname"
+* lp_us043, "Perm ban user"
+* lp_us044, "Perm ban IP"
+* lp_us045, "Perm ban nick"
+** note: if you are not using lang files, but hub wasn't compiled the hub with --disable-lang option please do !reloadlang after upgrading to that version
+
+0.428 @ 21.03.2007
+- removed count_all_users() from network.c/send_to_user()
+* it caused hub freezes sometimes
+* changed MAX_BUF_SIZE back to 1000000
+- fixed bug causing not-checking TAG on new MyINFO
+- added !topic command (without a parameter) - shows current hub topic
+- removed 'reason:' word from away/autoaway sending
+- changed autoaway to enable at least 5 minutes after logging in
+- massive cleaning of fileio.c file
+* changing all error handlers to work with verbosity 0
+* fixing error handlers comments
+* adding comments to functions
+- added missing translation to check_ipinfo() and made some small changes to check_if_saw() and check_ipinfo() for better look
+- removed sem_take(user_list_sem) from send_mass_message()
+- removed NON_LOGGED from checking on whoslots/whohubs/whoratio
+- updated project site address
+
+0.427 @ 19.03.2007
+- fixed bug causing clearing reglist entries if expiredtime was set to 0
+- removed total_share semaphore/shared memory and replaced it to total_share pointer
+* should decrease memory usage and remove some semaphores corruption
+* removed !recalculate command since it's unusable from now
+- made alarm_signal function more safe
+- removed autoaway checking from alarm_signal function and putting to socket_action
+* removed double-linking of shared memory user list
+
+0.426 @ 18.03.2007
+- removed unused Hello sending from my_pass()
+- fixed bug causing ghost nick entries for non-logged without NoGetINFO support
+- detected and removed bugs and invalid pointers with splint
+- removed aclocal checking rom configure/Makefile
+
+0.425 @ 14.03.2007
+- added missing error handlers to function from utils.c which are loading files to memory [#1679616]
+* also made loading more safe
+- changed "quit" variable from BYTE to sig_atomic_t [#1679621]
+- not-adding duplicated http:// addresses' entries to urlist
+- added --disable-lang compilation flag, for those who don't wanna have language support build-in
+* all messages are in English
+- removed "missing --run" warning while compiling
+
+0.424 @ 13.03.2007
+- !away without reason works exactly the same as !back
+- re-added saving config file at !quitprogram
+- removed reverse_dns variable, !gethost command and odch::get_hostname sub
+- removed !getip command - !ui do more than that
+- removed $GetINFO and $Hello parsing at all (obsolete)
+* clients not supporting NoGetINFO cannot force $GetNickList after logging in
+- changes to !remrls/!remreq commands
+* person who has added an entry is allowed to remove it
+* using wildcard * is allowed (made removing more simply, you don't have to paste whole name of file)
+- changed "offline messages" system (!msg command)
+* all messages are now stored in "savedmsgs" file (feel free to delete /msgs directory)
+* nicknames are case insensitive
+* messages are displayed only in botnick's pm
+* no newlines are allowed in the messages
+- new langugage variables:
+* lp_nonewlines, "Using newlines is not allowed"
+* lp_rawadm, "Administration"                                                                                                        
+* lp_rawop, "Security"                                                                                                               
+* lp_rawuser, "User" 
+- removed language variables:
+* lp_us061, "Get IP"
+* lp_us062, "Get host"
+* lp_he061, "displays the hostname of user with nickname 'nick'"
+* lp_he062, "displays the ip of user with nickname 'nick'"
+* lp_haveregistertodownload, "You have to register to be able to download files"                                                     
+* lp_haveregistertosearch, "You have to register to be able to search files"
+* lp_notallowedtodownload, "You are not allowed to perform any download at this time"                                                
+* lp_notallowedtosearch, "You are not allowed to perform any search at this time"    
+
+0.423 @ 11.03.2007
+- optimized NoGetINFO and UserIP2 (sending IPs for opped users) to be run in the same time
+- fixed NoGETInfo to show script nicknames (odch::register_script_name)
+* note: script gets default $MyINFO from hub, so you will be unable to force your own description in script itself)
+- added missing checking for expired requests and forced checing all files for expired entries on hub start
+- forced checking for expired entries in all files every 5 minutes
+- moved re-creating accounts with new expired times to function checking for expired entries in reglist
+* accounts are not re-created every time user is joining in but every 5 minutes hub checks if user is online
+* if user is found online the account expiration time is changed to the new one
+
+0.422 @ 10.03.2007
+- support for hublist.org, which is back from dead :)
+- optimized user->outbuf once again due to problems with logging in on bigger hubs
+
+0.421 @ 06.03.2007
+- massive code cleaning from invalid pointers, unused variables and small bugs
+- not logging chat messages containing newlines (includes !me,+me,/me) while log_main_chat is 1
+* not-logging text pasted to main chat
+- more strict protection against user->outbuf growing
+- minor fixes
+
+0.420 @ 05.03.2007
+- fixed disconnecting some StrongDC++ based clients while logging in
+- added checking if the nickname was logged from the same IP while adding do seenlist
+* if IP is different for the same nickname, entry with new IP is added and old one is not deleted
+- not-sending away status messaged to chat-gagged users if no_chat_for_chatgagged is 1
+
+0.419 @ 03.03.2007
+- removed memory re-allocationg while sending $MyINFO $ALL strings to new user
+
+0.418 @ 03.03.2007
+- fixed broken perl script support
+- changed the rule for compiling with perl script support, default is NO
+* to enable it do ./configure --enable-perl
+- added clockbot, if set to 1 (default) it shows current server time on hub in the nicklist
+- removed sending lots of messages for download- and search-gagged users
+- resized max client version lenght (V:) from 30 to 50 for some clients mods
+- fixed parsing MyINFO from crashing on some faked TAGs
+- reasons from !ban, !kick and kick from nicklist are saved if there is no newline in string
+- some fixes to nicklist bans with _ban_xx function
+
+0.417 @ 01.03.2007
+- better protection agains user->outbuf growing
+- kick_on_zeroshare 1 works even in min_share and min_psv_share are set to 0
+- !op doesn't create temporary entry in reglist
+- fixed showing hidden user (!hideme) on nicklist and crashes when hidden user was logging in
+- added support for NoHello and improved NoGetINFO support
+- minor fixes
+
+0.416 @ 27.02.2007
+- critical fix for remove_exp_from_file() (this time for sure!)
+
+0.415.1 @ 27.02.2007
+- another critical fix for remove_exp_from_file()
+- changed +me/!me output from '<>**' to '**'
+
+0.414 @ 26.02.2007
+- critical fix for bug that caused files disappearing while remove_exp_from_file()
+- regme 'password' and protectme 'password' commands don't show output in the main chat inf user is not REGULAR or user's sharesize < min_regme_share
+- improved to NoGetINFO support to work better and faster
+- fixed bug with gagging all classes up to ADMIN if mute_unregistred > 0
+- fixed unworking !hide/!unhide commands if hide_opshare == 2
+- some minor fixes
+
+0.413 @ 24.02.2007
+- changed ipgagging to affect all users except ADMINs and OWNERs
+- removed "*%" entries from if(sscanf(...)) for *BSD compatibility
+- removed creating Security and OpChat accounts while creating reglist (obsolete)
+
+0.412 @ 23.02.2007
+- added two new switches for sending information to ops/admins
+* show_notifications: 0-no,1-to main chat,2-on priv from botnick,3-on priv from opchatnick (default 2)
+* (includes: badpass,nopass,addprot,addreg,addvip,addkvip,addop,addcheef,addadmin,addowner,deluser,regme <password>, protectme <password>)
+* show_actions: 0-no,1-to main chat,2-on priv from botnick,3-on priv from opchatnick (default 3)
+* (includes: !kick,!gag,!banip,!gagip,!bannick,!ban,!warn)
+- added min_regme_share - minimum share for users who can use '+regme password' to reg themselves if self_registration is 1
+- added full support for UserIP2/$UserIP
+- added sending $UserIP string with IPs of all users to OPs/CHEFs/ADMINs/OWNERs while logging in
+- changed sending !regme request to ops from unregistered users
+* information is send to botnick instead of opchatnick (easier for registration in botnick's priv)
+* removed OP class from receiving notifications due to unabillity of regging users
+- removed connection types from botnick and opchatnick $MyINFOs to allow clients recognize them as bots
+* fix for sending unwanted away messages from clients
+- minor fixes
+
+0.411 @ 22.02.2007
+- fixed bug in !mass and !mass_r commands causing hub crashes
+- fixed $BotINFO for www.dchublist.com pinger to show the proper number of users
+- adding parsing most of files after loading to memory instead of reading from file every time when user is checked 
+* this will speed up and optimize working of the hub
+- better protection against user->outbuf lenght (message send from hub to user's sock)
+* should protect the hub from large memory usage resise if user's connection is very slow
+- optimized NoGetINFO support to be more effective
+- fixed hub to not leave unfree memory after SIGTERM/SIGKILL
+- fixed !reloadscripts to work properly
+- !clearipbans clears also banreasons file, !clearnickbans clears also nickbanreasons file
+- added possibility of using wildcards in ipgaglist and allowlist
+- !allowlist works like !getallowlist from now
+
+0.410 @ 20.02.2007
+- removed another possible memleaks and minor bugs
+- fixed !addrls and !remrls to work properly with strings up to 500 characters
+- added support for NoGetINFO extension
+* that speeds us the loading of user list while logging in
+- fixed a huge bug with !setpass command
+- added new variable min_command_class - minimum class of users who can use commands/see hub menu
+* 0=all(default),1=PROTECTED,2=REG,3=VIP,4=KVIP,5=OP,6=CHEEF,7=ADMIN&OWNER
+
+0.409 @ 17.02.2007
+- removed another possible memleaks 
+- fixed some bugs related to sending $MyINFO from ops/cheefs/admins/owners
+- made config to be saved properly at SIGTERM/SIGKILL
+- resized !remrls to remove strings up to 500 characters
+- fix for flood_lines: if less than 5 then it's increased to 5
+* this is optimized reasonable value (less than 5 can cause unwanted bans or not showing main chat messages at all)
+- added possibility of using all main chat commands through botnick's priv
+- lang variable changed: lp_requiredatlast -> lp_requiredatleast
+
+0.408 @ 14.02.2007
+- removed some possible memleaks
+- reduced $MyINFO $ALL sending to users who don't see full MyINFO because of class lower than hidetags
+* $MyINFO $ALL strings are send to them only on share/connection type/mode changes or from new logged in user
+* works only if hidetags > 0
+* should reduce CPU usage
+- removed dbdebug, using strace for debug is much more better
+- changes to show_helpcommand_usage
+* the only value are 0 and 1 now (2 was removed)
+* if 0, no information is send
+* if 1, !help and !rules usage is shown in main chat for admins/owners
+* if 1, !regme usage is shown in opchatnick's priv for all opped users
+- removed bug with showing classes' motds on admin/owner !motd
+- removed bug with odch::register_script_name that causes unshowing script user on nicklist
+
+0.407 @ 12.02.2007
+- fixed check_if_registered to work properly (again)
+- new admin/owner commands: !clearipbans and !clearnickbans
+- new language variables:
+* lp_wascleared, "was cleared"
+* lp_he120, "removes all IP bans"
+* lp_he121, "removes all nickname bans"
+* lp_us126, "Remove all IP bans"
+* lp_us127, "Remove all nick bans"
+
+0.406 @ 11.02.2007
+- updated link to DB Hub site after <MOTD>
+- changed the kick messages (is kicking ... because:) to original one to appear in DC++ info bar
+- skipping script nick registering if it's already used by botnick or opchatnick
+- changed check_if_registered to not open reglist file at all, all is read from memory now (should speed up the hub)
+- fixed case sensitive on nicknames in reglist while check_if_registered bug 
+- fixed other strstr case sensitive bugs on lists checking
+
+0.405 @ 09.02.2007
+- removed some info about kicks while nick validating (lots of flood)
+- fixed bug causing hub crash on odch::register_script_name
+- fixed anti-hammering to not deny the next user after the removed one
+- fixed unworking kicking for max_share
+
+0.404 @ 08.02.2007
+- added missing reglist reloading after !setpass
+- fixed !hideme/!unhideme to work properly
+- !hide and !hideme are stored in new "hiddenlist" file
+* when user joins the hub (ADMIN/OWNER for !hideme, and OP/CHEF/ADMIN/OWNER for !hide)
+* hub checks if user exists on hiddenlist with 1 (hidden share) or 2(hidden presence)
+* if found user's presence/share is hidden
+* user is removed from "hiddenlist" while using !unhide/!unhideme
+- changed log format to yyyy-mm-dd
+- added some $MyINFO spam protection from REGULAR user while parsing TAG description
+- fixed unworking checking for IP ban
+- optimilization of checking files for expired entries
+- small fix to allow gcc 2.95 to compile the package
+- improved hidetags variable (!set hidetags)
+* 0 - disabled
+* 1 - TAGs are not send to REGULAR users
+* 2 - TAGs are not send to REGULAR and PROTECTED users
+* 3 - TAGs are not send to REGULAR, PROTECTED and REG users
+* 4 - TAGs are not send to REGULAR, PROTECTED, REG and VIP users
+* 5 - TAGs are not send to REGULAR, PROTECTED, REG, VIP and KVIP users
+* also if hidetags > 0, only opped users (OP/CHEF/ADMIN/OWNER) can see TAGs from other opped users
+(no new language variables)
+
+0.403 @ 06.02.2007 
+- added hammering protection
+* hammering user (mostly robots) is trying to login without a break many of times despite of ban and redirect 
+* this caused opening ban files every logging in (slowering the hub or even crushing) 
+* now user is removed without sending any kick message until bantime is over
+* if this is a permanent ban user is removed without sending any kick message until 10 minutes is passed
+- fixed bug that allow chatggaged user to send unathorized messages started with one of the allowed commands for chatgagged users
+- fixed possibility of using newlines before/after password while self-registering (!protectme and !regme)
+- changed max lenght of client buffer in TAG (<xxxx V:) from 10 to 20 characters (support for some DC++ mods)
+- added !set extra_files - possibility of creating file-based commands stored in extra_files directory
+* eg "!set extra_files faq network" will add new commands !faq and !network
+* and !faq or !network usage will open faq or network file from .dbhub/extra_files 
+* files are created by admins by using !addfile command (eg. !addfile faq message)
+* and deleted by using !delfile command (eg. !delfile faq)
+* note: you have to do !set extra_files manually!
+- code cleaning
+- fixed some bugs in !op command
+- fixed bugs in UserCommands (some commands stressed on nickname)
+- fixed bug that makes compiling the previous version impossible
+- fixed unworking ip banning with wildcars
+- new language variables:
+* lp_masssend, "Massmessage was send to all"
+* lp_nosuchfile, "No such file"
+* lp_newcommand, "New file-command added" 
+* lp_delcommand, "Removed file-command" 
+* lp_us124, "Create new command-file"
+* lp_us125, "Remove command-file"
+* lp_he118, "creates new command-file"
+* lp_he119, "removes command-file"
+
+0.402 @ 03.02.2007
+- fixed !reloadscripts (and other stuff related to scripts) to work properly
+- removed users_per_fork totally (forking new child process if number of users is more than users_per_fork)
+* if you want to have more than 1024 users running from an user you have to do this as a root:
+* /usr/src/linux/include/linux/limits.h change #define NR_OPEN from 1024 to eg. 10240
+* edit /etc/security/limits.conf and add "user soft nofile 10240" and "user hard nofile 10240"
+
+0.401 @ 01.02.2007
+- fixed several bugs causing crashes on min_share
+- added partial support for $UserIP (works for one nick only at this time)
+- fixed info about !protectme to send nickname with protprefix to admins
+- optimized columns in !help output for English version and fixed 2 small bugs in commands output
+- last main chat messages in MOTD are not send if there are no messages catched (after hub start/restart)
+- added !getwarn admin command - shows users with warnings
+- fixed unworking UserCommand "Get releases list with type"
+- changed UserCommands to show also in hub tab, and some of the using %[nick] also in search window
+- readded old function for checking for free slots every 15 minutes (affecting active users only)
+- fixed duplicated script enties in reglist and changed class entry on reglist from 2 to 7
+- fixed sending $OpList with all users on the hub after !reloadscripts
+- added showing info in hub topic when main chat is locked
+- fixed UserCommands to get selected nickname
+- renamed CHEF class to CHEEF (which is proper) ;)
+* welcomechef variable changed to welcomecheef
+* lp_chefs_ lang variable was changed to lp_cheefs_
+* changes to default English lang variables which were using 'CHEF' to 'CHEEF'
+* just do !resetlang if you're using English language
+- added new variable - show_original_mail (default is 1 = on)
+* you can turn off sending email address from $MyINFO string to save system resources
+- new langugage variables
+* lp_mainchatlocked, "Main chat locked"
+
+0.400 @ 30.01.2007
+- completed the optimalization the hub for changeable 'language' variables
+- optimalization of sending $OpList
+- optimized sending reqlist and releaselist in MOTD by loading them to memory
+- removed free_access variable - can be done by script
+- fixed !gagall to not gag admins/owners but all except them
+- removed variables: hublistnick, hublistpass, hublistsite
+* unusable since hublist.org is down
+- removed user type BOT that was created by parent process
+* bots are totally virtual now, not included in userlist
+- renaming socket file from odch to dbhub (~/tmp/dbhub)
+- modified the url grabbing/showing/removing function to work properly with lang variables
+- autofavmsg is also send to main chat to all unregistered users
+- proper userlist kick string parsing for Windows clients
+- removed users_per_fork variable, because it's not working properly
+* due to socket limit and users_per_fork bug, DB Hub can handle at most 1024 users
+- optimalization for hub records checking/writing function
+- no longer sending info about not enough user's sharesize to other users
+- !reglist is new alias to !getreglist and !gaglist for !getgaglist
+- command aliases: !banlist for !getbanlist, !nickbanlist for !getnickbanlist
+- fixed !setpass function to work properly
+- some fixes for proper strings parsing on FreeBSD machines
+- antiflood for $GetINFO
+- fix for user->last_write if flood_action is set to 0
+- added notifications if variables for !set and !lang don't exist
+- lots of other bugfixes
+
+0.399
+- fixed segmentation fault while creating reglist (really)
+- !reloadlang and !resetlang cause re-send of UserCommands
+- some code modification in chat/pm parsing for more stable working
+- chat-gagged REGULAR user can use !help function but !help output and UserCommands are limited for him
+  to !help/!rules/!regme/!protectme
+- added new variable !set min_psv_share - possibility of setting diferent minimum share for REGULAR passive and active users
+* if set more than 0 passive users are checking for min_psv_share and active for min_share
+* if set to 0 min_psv_share is turned off and both passive and active users are checking for min_share
+- 14 new language variables: lp_allowedclients,lp_autoawaymodeon,lp_autoawaymodeoff,lp_awaymodeoff,lp_awaymodeon,lp_ban_,
+  lp_connectedsince,lp_datashared,lp_forbiddenclient,lp_fulfilment,lp_kick_,lp_maxusers,lp_redir,lp_weeks 
+- optimalization and small bugfixes
+- fixed unworking !remcateg command
+- fixed bug causing hub crash while using !remcateg or !addrls if category is not found and dbdebug is 1)
+
+0.398
+- fixed segmentation fault while creating reglist
+- removed all check_if_registred from send_user_info() and replaced them by user->type
+* that should save more CPU
+
+0.397
+*** CRITICAL UPDATE - bug with too large CPU usage was fixed!!!
+- new variables for spamming/flooding actions
+* !set flood_action (0-nothing,1-kick,2-ban default is kick)
+* !set spam_action (0-nothing,1-kick,2-ban default is ban)
+* !set flood_lines (lines of replies when user is recognized as flooder, default is 5)
+- unallowed adding doubled ban/nickban reasons
+- fixed sending warn info from opchat to not opped users
+- fixed bug with showing strange characters if no welcome for user is found
+- another lang variables: lp_faketag, lp_lackoftag
+- more code optimalization for introducing new lang variables
+- added loading files: motds/autofavmsg/regme and rules to memory
+- loading reglist/banlist/away/autoaways/warnings/allowlist/ipgaglist to memory and reloading only 
+  on changes in files, also changed hubrecords and settopic to not re-read every time user is joining 
+  the hub
+* this should reduces CPU usage to minimum and speed up the hub a lot especially while mass-joining!
+- minor fixes
+
+0.396
+- added new 238 language variables for UserCommands and !help output
+* max lenght: UserCommands - 50 characters, !help - 100 charcters
+- removed !set lang_on_priv - !getlang is displayed on bot's priv only because of number of variables
+- several minor fixes
+
+0.395
+- fixed bug that allow logging in with spaces in nicknames
+- fixed unworking admin account creation if reglist is missing
+- showing user types in !reglist 
+- new check_if_registered results:
+0-REGULAR, 1-PROTECTED, 2-REG, 3-VIP, 4-KVIP, 5-OP, 6-CHEF, 7-ADMIN, 8-OWNER 
+- new reglist classes:
+0-PROTECTED, 1-REG, 2-VIP, 3-KVIP, 4-OP, 5-CHEF, 6-ADMIN, 7-OWNER 
+- who_can_seerls/who_can_addrls/who_can_seereq/who_can_addreq/seen_class are now dependent to check_if_registered
+- adding release is not shown to users whose check_if_registered is less than who_can_seerls
+- new classes permissions:
+* PROTECTED - excluded from share and TAG checking
+* KVIP - can kick from nicklist or on !kick command
+* OP - can kick/ban/gag, can register PROTECTED users, can send massmessages
+* CHEF - can register REGS, VIPs, KVIPs, can change topics
+* ADMIN - can set variables (also lang variables), can register OPs and CHEFs, 
+  can remove all users except ADMINs and OWNERs, can reload scripts
+* OWNER - can do all above, can kill hub, can register ADMINs and other OWNERs
+- changes to the scripts:
+* odch::check_if_registered returns: 
+  0-REGULAR, 1-PROTECTED, 2-REG, 3-VIP, 4-KVIP, 5-OP, 6-CHEF, 7-ADMIN, 8-OWNER 
+* changes to scripts' subs when user joins the hub:
+  REGULAR: new_user_connected(), PROTECTED: prot_connected(), REG: reg_connected(), VIP: vip_connected()
+  KVIP: kvip_connected(), OP: op_connected(), CHEF: chef_connected(), ADMIN: admin_connected()
+  OWNER: owner_connected()
+- added new motd for CHEFs: !set motd_chef
+- default prefixes for self-registration commands:
+* !set regmeprefix, defualt #[REG]
+* !set protectmeprefix, default [x]
+* you can change it or set to blank if you don't wanna prefixes
+- !addprot,!addreg,!addvip,!addkvip creates accounts without any prefixes
+- added showing user class to !set show_joinsparts
+- some minor security fixes
+- some minor code fixes
+- updated Documentation/scriptdoc file
+
+0.390
+- pre-release for 0.400 version with language support (first 52 variables)
+- !lang command shows language file, !lang variable value - changes entries in language file
+- !reloadlang - reloads language settings from "lang" file
+- !resetlang - changes language to English
+- fixed unworking !block/!unblock commands
+- fixed showing unproper time to unban that occures sometimes in older versions
+- fixed show_original_desc bug I made in version 0.356 by accident
+- set hub_name makes $HubName refresh
+- optimalization fragments of code for language support
+- more small fixes to make hub more stable
+
+0.356
+- switching back to the previous method of killing scripts pid while !reloadscripts, due to problems in 0.335
+- fixed strange utput when kicking someone from nicklist without giving a reason - now it's really done
+- added new variable !set show_denied - displays info about users who cannot join the hub because of bans/limit of users or reg_only
+
+0.355
+- finally scripts are working and reloading properly
+- fixed strange output when kicking someone from nicklist without giving a reason
+
+0.354
+- fixed showing bad password message if registered user doesn't type any password while logging in
+- fixed showing old buffor for empty main chat messages
+- renamed !showtemp and !showperm to !lasttemp and !lastperm due to mismatch with !help info
+- added showing fake tag in ban reasons and on !lastperm
+- added some auto-cleaning functions for banreasons and nickbanreasons
+- fixed cloned "Spamming" entries in banlist/nickbanlist while user is flooding main chat/priv with spam message
+- changed verbosity to 0 to all perl_init.c logprintf functions
+- fixed sending empty $MyInfo from scripts through hub
+- forced better and more proper parsing of $MyINFO
+
+0.353
+- removed unworking hub linking feature - better way is linking chats between the hubs using scripts
+- fixed bug causing unremowing dbdebug files every alarm_signal
+- fixed crashing hub when there are bug in perl script code
+
+0.352
+- fixed this critical security bug http://www.critical.lt/?vuln/548
+- when !set show_kicksbans is 3 all kicks/bans info are shown in main chat info for all users
+- when !set show_joinsparts is 3 all joins/parts info are shown in main chat info for all users
+- added !set hide_allshare - makes that all users have 0 sharesize in the nicklist
+- some minor fixes
+
+0.351
+- removed banword searching cause it can crash the hub
+
+0.350
+- fixed critical bug causing huge memleak when !set hide_opshare was set to 2
+- fixed bug unallowing hub to creating new files or receating old that were deleted
+- added reqests mod: !addreq for adding request, !remreq for delete (only admins can remove requests)
+- added some req settings similar to release settings: !set req_on_priv, !set show_requests (in MOTD)
+  !set max_requests_to_show (in MOTD), !set who_can_seereq, !set who_can_addreq, !set expiredreq
+
+0.349
+- added statistics to reglist, banlist and nickbanlist
+- optimized db debugger
+- added possibility of sending massmessages to spercified class !mass_n - to REGULAR, !mass_r to REGISTERED, !mass_o to OP, !mass_a to OP_ADMIN
+- added account expiration time to reglist
+- some fixation for new pingers to show proper amount of users on the hub
+
+0.348
+- kicks from nicklist don't erase auto-away (now it's really done)
+- changed automatic total share reculcating to manual admin command !recalculate (use it only if there is mismatch between shared data size in !hubinfo and in your client)
+- added !set kick_on_zeroshare variable, if set to 1 REGULAR users will get kicked if min_share > 0 (note: it works before gag_on_minshare)
+- moved "Hub commands called" in !hubinfo at the bottom just for better look
+- changes to hide_opshare function: 0-off, 1-hides share from all users, 2-hide share from REGULAR users only (this is also affecting by unsending search strings)
+- readded missing TTH searches information to !hubinfo
+- info about min share is send after sending MOTD if gag_on_minshare is 1
+
+0.347
+- fixed adding extra "in" while using !set motd_admin
+- now you can write text starting with ! and + that isn't any command 
+note: if you're using some commands called from scripts and you don't wanna commands to be shown use !set extra_command 1
+- changes in admins' !hubinfo output and new info about denied users (IP- and nick- banned)
+- kicks from nicklist don't erase auto-away
+
+0.346
+- fixed a critical security bug with bot passwords - now they're randomized (thanx to Ari)
+
+0.345
+- fixed a critical bug with recalculating hub total share every alarm_signal() causing shared memory abnormal usage (fixed No space left on device bug)
+
+0.344
+- removed colors from console to avoid problems with KDE terminal
+- added info about accepted/blocked downloads in admins' !hubinfo
+- added "w" (for weeks) in bans and nicklist kicks
+- removed showing slots info in desscription - caused too many problems
+- simplified files creating function in fileio.c
+- fixed bug that causes hub crashes if !set show_welcomes was set to 2
+- changed debugging function, now extened information is written to 'dbdebug' file if !set dbdebug is 1
+
+0.343
+- fixed bug with [slots: x/x] in description that can crush the hub (not enough buffer)
+- added possibility of disabling showing original users' descriptions (!set show_original_desc 0=off,1=on)
+- added possibility of disabling showing mode info in users' descriptions (!set show_mode_in_desc 0=off,1=on)
+- added possibility of disabling showing slots info in users' descriptions (!set show_slots_in_desc 0=off,1=on)
+- mode and slots info were disabled for users using DC++ 0.68 and 0.6811, because there is bug in these version with description parsing
+- added setting minimum class allowed to see releases list (!set who_can_seerls - 0=all,1=all registered,2=ops+admins,3=admins only)
+- added !set show_helpcommand_usage command - showing usage of !help, !regme and !rules commands by REGULAR users to admins 0=off,1=main chat,2=pm
+- made slots info refreshable every $SR reply
+- removed free slots checking string every hub_timer()
+- added counting users with free slots to +fs command
+- fixed bug with unshowing !rules command for chat-gagged
+
+0.342
+- added setting minimum class allowed to add releases (!set who_can_addrls - 0=all,1=all registered,2=ops+admins,3=admins only)
+- added showing free slots info in users descriptions (only in active mode, who have repliedfor $Search with $SR)
+
+0.341
+- added reseting hub total sharesize and re-calculating every hub_timer() (should fix some counting bugs)
+- when there are more users from one IP than max_regular_from_one_ip all of them get kicked, also tempban was changed from 1 to 5 minutes (antyflooders protection)
+
+0.340
+- WARNING: changed .opendchub folder to .dbhub and opendchub binary to dbhub!
+- added _ban_ for permanent ban while kicking from nicklist with reason (for ops/admins)
+- KVIPs can use _ban_[1-9][smhd] with main chat usercommands of their clients, string is e.g. "KVIP_nickname is kicking someone because: test _ban_1s"
+- fixed showing "KVIP welcome" while changing OP_ADMIN welcome
+- verbosity less than 3 isn't set to 0 after restarting the hub
+- some other small bug fixes
+
+0.339
+- fixed another bug which could crash the hub
+- added re-adding bots' accounts every alarm_signal (no account expiration for bots and probably avoiding more problems)
+
+0.338
+- fixed another critical bug which could crash the hub
+- sorted +help output and UserCommands list more logically and removed noticed bugs from them
+
+0.337
+- fixed bug in "Add release category" raw command [djuzi request]
+- reorganized !getgaglist output and added users' IP addresses
+- added !set no_chat_for_chatgagged - possibility of blocking sending main chat messages 
+  (no-command messages, +me output and last 10 main chat messages) to chat-gagged users
+- set public_hub_host to 'reg.ancient.pl' and hublist_upload to '12' (12*15min=3h between uploads) as default
+- added possibility of setting more than one prot(reg/vip/kvip)prefix (prefixes separated by spaces)
+- added showing info about invalid typed passwords to admins
+- updated config.html
+
+0.336
+- fixed some bugs in function processing main chat messages
+- added warnings expiration !set expiredwarn (note: due to changes to warn function old warnings will be removed) [sceptiq request]
+
+0.335
+- fixed bug with unworking nicklist kicks with _ban_xy strings in reason
+- removed unused variables: searchcheck_exclude_all, searchcheck_exclude_internal, syslog_enable
+- added 'DB-Manual' directory and config.html file with explanation of variables stored in 'config' file
+
+0.334
+- fixed another critical bug
+
+0.333
+- fixed bug that could cause hub hang-ups
+- fixed doubled string in !myinfo
+- fixed unshowing [AWAY] in descriptions if user has no proper TAG description
+- re-added old description parser while sending $MyINFO (should fix problem with multiple [A],[P] in description)
+
+0.332
+- fixed unshowing SCRIPT users on nicklist [KillEmAll bug report]
+- added hub version to $BotINFO
+- fixed blank IP addresses in QUITS:
+
+0.331
+- added showing number of TTH: searches in admin's !hubinfo
+- QUITS: doesn't show banned users if show_joinsparts is 1
+- several fixes and small bugfixes (I hope hubs stop crushing now)
+
+0.330
+- added !set tempban - time of ban for maxhubs, minslots etc. in minutes
+- verbosity changes automatically to 0 after starting the hub (keeps old log - may be userful for futher debugging)
+- added possibility of setting an extra MOTD for each class (!set motd_normal, !set motd_prot, !set motd_reg, !set motd_vip, !set motd_kvip
+!set motd_op, !set motd_admin), note: admins see all MOTDs on !motd command [da1 request]
+- some small fixes to make hub more stable
+
+0.329
+- added tabulation insert spaces in !help output (suitable for standard DC++, not supported by Valknut) [thx to wiXed]
+- made some fixes to function responsible for kicking users from nicklist
+- added blocking saving messages to online targets while using !msg function
+- fixed showing ban periods (if typed) in ops/admins opchat info for !banip and !bannick commands
+- added new statistics to admins' !hubinfo: hub commnds called, blocked/accepted main chat messages, blocked/accepted priv messages
+
+0.328
+- fixed bug with hub crashes after sending too long kick messages (kick from nicklist)
+- added validation for proped TAG description [wiXed bug report]
+- fixed showing modes in descriptions of users with fake tags (not included by checking due to check_class)
+
+0.327
+- fixed bots connection types (again)
+- added ban reasons and human-readable expiration time to !getbanlist and !getnickbanlist
+- removed !getbr and !getnbr commands
+- added possibility of disabling possibility of sending offline messages from unregistered users (!set offline_msgs 1), or from all (set offline_msgs 0); default is offline_msgs 2 - all users can leave messages
+
+0.326
+- fixed showing bots connection types [wiXed bug report]
+- fixed bug with possibility of avoiding being gagged after unsharing files soon after connect (if gag_on_minshare is on) [shaman237 bug report]
+- fixed !ipinfo for online users to work with wildcards too
+- added banning user for M: tag different that A,P,5 (dependent of check_class)
+- added "offline messages" system - you can left message for someone using !msg commands, message will be send
+  to him at next logging in to the hub, also !readmsg - read messages written to you, !delmsg - erase all messages [da1 request]
+
+0.325
+- removed "ghost nick" problem - disconnecting old unregistered user's session with the same nickname and IP 
+  when new one is logging in to the hub [djuzi request]
+- added some spaces between commands and their descriptions in !help output for more clarity [djuzi request]
+- SCRIPT user cannot be kicked from nicklist [Maxxx request]
+- forced gagging (from chatting/searching/downloading) instead of banning for too many warnings (max_warnings+2)
+- removed !set warn_bantime variable and added info about user's warnings (if exists) while logging in to hub
+- added possibility of limiting number of releases shown in MOTD (!set max_releases_to_show)
+- added removing urls with url address instead of timestamp (eg: !remrls http://dbhub.ir.pl)
+- if expiredrls is set to 0, releases will never expire 
+- if expiredtime is set to 0, accounts will never expire
+- if expiredurls is set to 0, urls will never expire
+- changed !geturl output to not show the timestamp and added url adding time (to the new urls!)
+
+0.324
+- add !set warn_bantime - possibility of multiplying ban time for users with too many warnings (default is 1) [gryf request]
+- using !kick, !warn, !ban, !banip, !bannick, !gag and !gagip commands causes showing infos to ops/admin from opchatnick
+- fixed bug causing sending users' away infos to the user using !mass or !massmessage commands
+- changes to !seen function - now you can use a part of nickname (shows all matches results)
+- if verbosity is at least equal 3, log file is removed every 15 minutes (hdd space protection)
+- renamed 'matches' to 'items' for releases 
+- updated the latest debugger
+
+0.323
+- added ApexDC++ to default allowed_clients [almiteycow request]
+- added showing number of matches when using these commands: !getrls,!ipinfo!whoip,!whoslots,!whohubs,!whoratio
+- added !findrls function - searching for release, note: works also for releaser (user: [ xx ]) or date (added: [ xx ]) [zedro request]
+- changed strncmp to strncasecmp in search_in_string()
+- added time of adding release to !addrls function [zedro request]
+- added more debuggers (useful if any problems with hub occure), requires !set verbosity 3
+
+0.322
+- removed gag_zeroshare varible - gag_on_minshare can do the same
+- if hublist_upload is more than 0, value becomes also an interval between uploads (1 = 15 minutes, 4 = 1 hour etc.)
+- fixed ban/warn/kick commands showing nicknames instead of reasons
+
+0.321
+- nickbans if registered_only == 1 works also for reg users without regprefix
+- nickbans while checking TAG affect regs if registered_only is 1 and check_class is 1
+- removed small bug in !help with showing <> (all commands can be also started with '+') 
+- reduced warn messages to pm only
+- kicking from nicklist does affect user also for temporary nickban (kick_bantime) now
+
+0.320
+- fixed bug causing hub crashes if check_class was more than 0
+- added !set reverse_ratio - if 1, ratio becomes slots per hub ratio instead hubs per slot
+- fixed unexact matches for release names while removing them using !remrls command
+- added not adding duplicated release names to relese list
+- added !warn command for ops/admins - possibility of sending warning to user
+- added !remwarn command for admin - removes all warnings from selected user
+- added !set max_warnings - number of allowed warnings for user before getting kicked
+  note: if user's warnings-max_warnings>1 user gets banned for number of hours equal number of warnings
+- if registered_only==1 REG users can be nickbanned (temporary and permanently) also with !ban and !bannick command 
+  or with kick if kick_bantime > 0
+
+0.319
+- fixed bug causing kicking users for too long description after adding [A],[P],[PROXY] to description
+- admin can !kick any registered users except admins
+
+0.318
+- added showing user's mode ([A] for M:A, [P] for M:P, [PROXY] for M:5) in user's description
+- added !set restrict_mode possibility of kicking users with 'psv' string in nicknames and M:A in tags
+- added !set show_kicksbans - kicks/bans info for admins: 0-disabled, 1-main chat, 2-priv from botnick
+- added possibility of having categories names containing spaces eg. "T TV SHOWS"
+- !remrls changed: now you can delete entry using release name not timestamp (eg. !remrls Some.Linux.Dist.ISO)
+- removed showing timestamps in !getrls functions
+
+0.317
+- added showing IP address when using !whohubs, !whoslots and !whoratio commands
+- added counting reghubs to !whohubs and !whoratio if count_reghubs is 1
+- added possibility of creating and removing your own release categories: !addcateg and !remcateg
+- fixed bug which could crash a hub if user hasn't proper TAG description and one of this command was used:
+  !ui, !myinfo, !whohubs, !whoratio
+
+0.316
+- parted function responsible for !seen and !records into two functions 
+  (fixed finally bug with !seen showing hub records, thanx to dbfm for help)
+- if deny_passive is set to 2, only users without 'psv' in their nicknames are kicked/redirected
+- QUITS: doesn't show 'parent_process' and 'Non_logged_in_user' anymore if show_joinsparts is > 0
+- MOTD is not send to new users who didn't pass $MyINFO check
+- added possibility of using wildcards (*) in !ipinfo
+- added !set connlimit - minimum upload limit for user, works for TAGs L: and B: and for connection type: NetLimiter [x kB/s]
+- registered users aren't added to the number of connected users compared with max_users
+- !back and auto-back show time of being in away mode (for !back user have to use !away command first)
+- /me,+me,!bot and !say outputs are now added also to last 20 messages (+chat)
+- added new system of adding release: !addrls 'x' 'file', where 'x' is 'rlstype' (A-audio,D-DVDR,G-game,V-video,X-porn,O-other)
+- added enchacement to !getrls command: !getrls 'x' (where 'x' is 'rlstype') 
+  shows only releases from selected type (A-audio,D-DVDR,G-game,V-video,X-porn,O-other)
+  !getrls without 'x' shows complete list of releases
+
+0.315
+- !massmessage is send from botnick now instead of user who used the command
+- if welcomereg(vip/kvip/op or admin) is empty hub doesn't show welcomes and partmsg for that class
+  note:	this works also if !set show_welcomes is 1 or 2, so if !set show_welcomes is 2 you need to
+  have some text in welcomereg(vip/kvip/op or admin) even if it's not displayed at all, this is also for partmsg
+- if partmsg is empty hub doesn't display part messages for registered users if show_welcomes > 0
+- removed hub_owner variable - seems to be not supported by pinger
+- added displaying of parted H: tag to regular/registered/opped hubs in !ui and !myinfo
+- added all missing features from !ui to !myinfo
+- placed variables from config more logically on !getconfig
+- add !set config_on_priv variable - shows config as a private message from botnick
+- added possibility of viewing (!getconfig) and setting (!set) variables from config through the botnick's private chat 
+- added some support for !seen command (fixed bug with !seen showing hub records)
+
+0.314
+- fixed bug with timeouts for hublist.org pinger
+- added !longest command - shows 10 users longest connected to the hub
+- fixed another small bug in +fs command
+- fixed bug in raw commands - now should work on all machines (thanx to wiXed for help)
+- added support for pinger's $BotINFO: http://dcpp.net/wiki/index.php/%24BotINFO 
+- added !set hub_owner command (only as a support for $BotINFO)
+- added default $Lock string for DB Hub: $Lock DB_Hub. Pk=DB_Hub.
+- add-ons to admin's !ui command: total visitors (since hub start time), accepted searches, blocked searches
+- fixed bug with doubled !set autofav command, to change "autofav" file use !set autofavmsg command
+- /me works the same as !me or +me
+
+0.313
+- added possibilty of showing list of latest releases (the same as when using !getrls command)
+  with MOTD - !set show_releases 0-off, 1-on main chat, 2-on priv
+- added showing connection type to +fs command
+- fixed some bugs in +fs command
+- added information about the time when user joined the hub to !ui command
+- added denying access to the hub for users with spaces in their nicknames
+- added !set gag_on_minshare, if 1 users are gagged from searching and downloading instead of kicking
+  for not sharing enough data for their classes (works for all classes except OP_ADMIN)
+- fixed bug with min_share(s): user doesn't get MOTD is he is kicked for not enough data shared
+- added !ipinfo command for ops/admins - shows history of connections from specified IP (exact match, 
+  no wildcards and no IP ranges allowed)
+
+0.312
+- changed <AUTO AWAY MESSAGE> to away-user nickname, because it was "offline user" for DC++ based 
+  clients (message was forwarded to main chat instead of pm)
+- using +me command causes [Auto-Back] for users using autoaway feature
+- changed away reason lenght from 150 to 200 characters
+- !set ipgag_type - sets type of IP gag: 0-chat(default),1-download and search,2-all
+- !set gag_zeroshare - if 1 users with 0 share are gagged from searching and downloading
+  until they share something
+- some adds to !ui command: last search, away status (if on), gag types (if gagged)
+- !hideme/!unhideme command for admins - hiding admin presence from being displayed on nicklist
+- fixed bug in !unhide command
+
+0.311
+- fixed bug in default_prefix and replaced it with default_prefixes - now you can set more optional required 
+  prefixes for unregistered users, separated by spaces
+- added !set count_reghubs - if set to 1 hubs where user is registered are summed with hubs when
+  user is not registered when checking for maxhubs (based on TAG H:n/r/o - hubs=n+r)
+- removed check_key variable and $Key checking - obsolete
+- added information about a way to get the list of latest releases to +addrls command
+- using +me command is also user's last_write from now
+- forced correct kick messages to kicked unregistered users if check_class is higher than 0
+- added all variables from config file to odch::get_variable (usefu for script writers)
+  note: you can set any variable from config file calling odch::set_variable
+
+0.310
+- fixed probably bug with hub crashes caused too long main chat messages
+- added !set check_class - class of users whose TAGs will be checked: 0-regular(default),1-REGs and below,2-VIPs and below,3-KVIPs and below
+  4-OPs and below. note that PROTECTED users will not be checked, registered users are always only kicked due to ban exceptions
+- added support for +fs command - bots sends search string every hub_timer to active users
+
+0.309
+- fixed bug with in check_settopic() function - removed huge memleaks
+- fixed bug causing hub crash when registered user provides incorrect password 
+
+0.308
+- user can always use +regme/+rules and +protectme commands despite of gag chat and mute_unregistered
+- !last10 command was replaced by !chat command which shows 20 last main chat messages instead of 10
+- all commands can be started with + or ! from now
+- added possibility of changing files from the main chat (just like motd): regme (!set regme), rules (!set rules) and autofav (!set autofav)
+- added new commands for ops/admins: !showtemp - shows 20 last added temporary bans and !showperm - shows 20 last added permanent bans
+- non-sending MOTD to registered user who don't provide the valid password
+- added two new lines to !ui command: "Last write to the main chat" and "Last sending of private message" (if exist in current user's session)
+- added auto-away feature (set with !autoaway command, and removed with !noautoaway) - automatic toggling in away mode after 
+  specified interval (minimum 15 minutes)
+- added restrictions for downloading (!set restriction): 0-no restrictions(default), 1-user can download files/filelist only from users
+  from his/her class of from lower classes, 2-unregistered user can download only from REGULAR users, registered can download from all users
+  note: this affects search too
+- added sending actual topic to newly connected users with extended information who and when changed it last time (stored in settopic file) 
+
+0.307
+- removed dots from end of all welcomes - can be ended as you want
+- added logging of +me actions (useful with pisg)
+- fixed small bug in !away command
+- !set maxhubs 0 disables the checking of hubs users are connected to
+- !set maxslots 0 disables the maximum number of opened slots
+- !set ratio 0 disables checking for hubs per slot ratio
+- fixed small bug in fake share detector
+- added possibility of setting maximum number of connections from the same IP (!set max_regular_from_one_ip)
+  note: only REGULAR users are checked, this can slower the bigger hubs, default is 0=disabled 
+  
+0.306
+- added !fs command - shows active users with free slots based on $SR nmdc command
+- fixed bug with strange entries in banreasons/nickbanreasons files when banning for lak of TAG description
+- added kicking users using protection prefix who were not registered or their registration time expired
+- some more small bugfixes
+
+0.305
+- added !set min_search_len - possibility of setting minimum lenght of search string
+- admin accounts do never expire
+- changed freeaccess function - doesn't work with hub_timer anymore but it's checked when an unregistered user try to connect to the hub (exact time match - equal :00 hours)
+  (note: it's not switching between registered_only 0 and 1, it works when registered_only is 1 but it's not changing that; 
+  note also that end of period can be set also after midnight eg: 23-2 - start will be at 23:00 and end will be at 1:00)
+- if deny_pm_http is set to 2, warnings about possibility of pm spams are send to ops/admins, and after 5 next messages from the same user
+  hub recognizes him/her as a spammer and banning
+- while using !redirectall command, users aren't stored in seenlist 
+- expiration for entries in seenlist (!set expiredseen - dafault 30 days)
+- expiration for entries in banreasons and nickbanreasons due to ban time
+
+0.304
+- changed "data sharde" to "data shared" in !hubinfo
+- fixed bug in showing Hi! message (!set show_himsg 0 is really disabling the Hi! msg now)
+- added Verlihub like kickbans from nicklist with _banxxy_ in kick reason xx-is the number y-is the period (s-seconds, m-minutes, h-hours, d-days)
+- when user's ban is expired user can join the hub without waiting until hub_times removes ban ntries from files
+- some small bugfixes
+
+0.303
+- possibility of kicking unregistered users who beg for slots on privs (!set slotbeg_kicker 1)
+- !untopic command - unsets the topic (op can set/unset topics if !set op_can_topic 1)
+- possibility of viewing joins/parts of users (with IP) for admins (!set show_joinsparts - 1 is main chat, 2 is priv message from botnick)
+- added number of users of each class to "Users connected" in !hubinfo and removed showing "Topic is" if topic is not set
+- adding IP of kicked user when op/admin kicks someone from nicklist
+- !deluser command as a symlink to !removereguser
+- added !set max_share - possibility of setting maximum sharesize for unregistered user (can be useful to remove some fake users), default is 500 GB
+- info messages from botnick to admins when user registers hisself (+regme), users protects hisself (+protectme) and when ops register/protect any user
+- added possibility of sending fav-messages to unregistered users (!fav ops/admins command) and auto-fav-messages 
+  (!set autofav 'number', if 'number' > 0 the auto-fav-message will be send every autofav * alarm_time (alarm_time is default 15 min),
+  auto-fav message is taken from "autofavmsg" file
+
+0.302
+- added possibility of disabling showing uptime in MOTD (!set show_uptime 0) and onjoin Hi! message with IP (!set show_himsg 0)
+- added missing !addwelcome, !remwelcome, !getwelcomes admin's commands to !help and to raw commands
+- added limit of characters in messages shown as last 10 messages (max 80 characters)
+- added possibility of enabling temporary access for unregistered users when hub is registered_only (!set freeaccess 18-1, where the first number
+  is the hour when the opening starts and the second one is the period of opening in hours), note: this is using hub_timer so can work with 
+  max 15 minutes of delay), also dash is required
+
+0.301
+- non-showing 'removed user' in the seenlist and when registered user's nickname freezes
+- fixed showing min shares is !hubinfo
+- added posibility of disabling showing alltime records if the're broken and in MOTD (!set show_records 0)
+- added possibility of disabling command messages in MOTD (!set show_onjoinmsgs 0) 
+- added showing user's sharesize when kicked for not enough share
+- due to punishment type hub tells user, that he is redirected or kicked only
+- min share is checked on every MyINFO string, so when admin changes min share to the higher value, users that don't have enough share will be kicked very quickly
+- fixed showing account expiration time to temporary protected users and added showing it on !myinfo and !ui commands
+- added !whohubs command for ops/admins - shows the users connected to the number of hubs equal or higher than specified
+- added !whoslots command for ops/admins - shows the users who opened the specified number of slots
+- added !whoratio command for ops/admin - shows the users with equal or higher hubs per slot ratio
+- fixed showing user's desciption and TAG in !myinfo/!ui
+- added !whoip command for ops/admin - shows the users connected from selected IP (it can be also partial IP address)
+- added possibility of displaying some commands' outputs as a priv messages instead of main chat messages !help (!set help_on_priv), !regme (!set regme_on_priv), 
+  !rules (!set rules_on_priv), !getrls (!set rls_on_priv), !geturl (!set url_on_priv)
+- added missing !say and !bot commands to !help and to raw commands
+- added random welcome messages for registered users (if !set show_welcomes is 2) stored in 'randomwelcomes' file, which can be added (!addwelcome), removed (!remwelcome) or listed (!getwelcomes) by admins
+
+0.300
+- !myip/+myip command showing your IP (and hostname if reverse_dns is 1)
+- !say (saying something from any other nickname, also unexisted one) and !bot (saying something as bot) admin commands
+- removed show_uptime variable - showing hub uptime in MOTD and on !uptime command is default now
+- fixed some small bugs and some hub cleanings
+- added possibility of setting required prefix for all unregistered users (!set default_prefix)
+- added possibility of setting the minimal lenght of nickname for unregistered users (!set min_nick_len)
+- added !report/+report command - user can report other online user's offence to ops and admins (shown in opchat)
+- added showing hub rules (stored in "rules" file) at !rules/+rules command
+- added showing hub registration rules (stored in "regme" file) at !regme/+regme command
+- added !help/+help command as a symlink to the !commands
+- added !mass command as a symlink to the !massmessage
+- added new warnings for unregistered users is mute_unregistered is 1 ,2 or 3, informing that user has to register
+- changed !dbprot,!dbreg,!dbvip,!dbkvip,!dbop,!addadmin to !addprot,!addreg,!addvip,!addkvip,!addop,!addadmin
+- added sending "regme" as pm file to unregistered user if mute_unregistered isn't 0
+- settings in config are placed alphabetically now
+- !topic/+topic command with main chat info who changed the hub topic and possibility of changing topics by OPs (!set op_can_topic)
+- added !regme 'password' command - self-registration for users if !set self-registration is 1 (default is 0)
+- added possibility of registering REG users if !set op_can_reg is 1 (default is 0)
+- added possibility of registering hublist pinger with password (!set hublistpass) as a REGISTERED user
+- added information about visiting hub by hublist.org pinger with the link to hub site at hublist.org if !set hublistsite is set
+- added logging main chat (eg. to make logs for using with PISG) with possibility of disabling it (!set log_main_chat)
+- changes to !addprot command - syntax is !addprot 'nickname' 'password' 'protdays' now, where 'protdays' is optional - the number of days the protection is granted for, if 'protdays' is blank or set to 0, user is premanently protected
+- temporary protected accounts aren't re-registered every time user joins the hub
+- !protectme commands that creates protected account if !set protection is 1 and !set prottime - number of days until the protected account is removed
+- added info about the time when user's protected account will expire when user is logging in to the hub
+- added !date/+date command showing current (server) date
+- added counting share and users records and displaying them in MOTD (when user is joining the hub) and on !records/+records command, also info about broken records is send to all users on hub_timer (to avoid main chat records' spam flood)
+- kicking unregistered users for too high hubs/slots ratio (!set ratio)
+- added welcomes for classes REG(!set welcomereg)/VIP(!set welcomevip)/KVIP(!set welcomekvip)/OP(!set welcomeop)/OP_ADMIN(!set welcomeadmin) with possibility of disabling (!set show_welcomes - default is 1=on) and part message when registered user leaves the hub (!set partmsg)
+- added !kick command for OP_ADMIN/OP/KVIP
+- added !hubinfo command - shows some hub settings to the user
+- added !myinfo command - shows some information about user who is calling this command
+- added !ui command for OP_ADMIN/OP/KVIP - shows information about selected user
+- updated and re-organised command list send on !help/!commands
+- added raw commands
+- added storing last 10 main chat messages and displaying them on !last10 command and when user is joining the hub if (!set show_lastmsgs is 1)
+- many of small fixes and cleanings
+	  
+--------
+0.257
+- fixed bug in wrong showing expired days when using !set expiredurl and !set expiredrls commands
+
+0.256
+- possibility of viewing "banreasons" (!getbr) and "nickbanreasons" (!getnbr) files for admins
+- when user adds a release the main chat info is send to all users
+
+0.255
+- new function of adding(!addrls)/informing(!getrls) people about new stuff you have added to your share. admins can also removes entries (!remrls) and set releases self-expiration time (!set expiredrls)
+- added ban/nickban reasons which are stored in "banreasons" and "nickbanresons" files, and shown when banned/nickbanned users is trying to connect to the hub (note: there are stolen only bans from hub eg. minslots, maxhubs etc... commands/scripts reasons are not supported)
+- some cleanings in commands.c file 
+
+0.254
+- new function (taken mostly from DarkBot but will work in a better way) of grabbing URLs from main chat and storing them in a "urllist" file, with possibility of being viewed on !geturl command, possibility of removing urls by admin (!remurl) and url self-expiration time (like ban/accounts expiration - !expiredurl)
+- fixed small bug in "expiredtime"
+
+0.253
+- removed redir_on_min_share variable
+- added !set punishment variable - you can choose if you want to redir (1) users on min_share/maxhubs/minslots etc. or only disconnect (0), default is 1 (note: this is also when banned/unregistered when reg-only user try to connect to the hub)
+- some cleanings in commands.c - reduced size of code and binary
+
+0.252
+- fixed bug I made in 0.251 with non-recognising BOTS and SCRIPTS as admins
+
+0.251
+- fixed bug causing self-changing password if crypt_enable is 1
+
+0.250
+- added possibility of linking chats between hubs (using a modified old ODCH linking)
+
+0.248
+- moved re-creating account with new expiration time from the time user is leaving the hub to the time when user joins the hub (sometimes user doesn't quit properly because of connection problems)
+- added possibility od denying proxy connections (tag M:5) using !set deny_proxy command
+
+0.247
+- fixed bug that makes registering any online user impossible
+
+0.246
+- added account expiration system using reglist (!set expiredtime in days, default 90)
+- added possibility of unallowing users in passive mode (!set deny_passive)
+- !op do not give op to ops/admins (user is already opped)
+- !mypass commands for registered/opped users - showing your password
+- remove bug with disconnecting if there are spaces in e-mail (eg valknut anti-spam) or in connetion type 
+- !op, !set botnick and !set opchatnick works without delaying
+
+0.245
+- fixed bugs in MYINFO commands (no sending email to SCRIPTs, incorrect showing 0 bytes sharesize)
+- added sending connection type to normal users if hidetags is 1 (required for away flags)
+
+0.244
+- fixed bug causing wrong showing REGULAR user in nicklist
+- added some admin commands for registration: !dbprot (for ops too), !dbreg, !dbvip, !dbkvip, !dbop, !dbadmin
+
+0.243
+- fixed bug with default_pass causing hub hang ups if REGULAR user reconnects
+- added some bot and opchat nicknames' limitations (cannot have other bot's name, user's name, cannot be set to blank)
+- repaired function odch::get_connection which was working badly after changing method of processing connection types
+
+0.242
+- fixed bug caused hub hang ups after !reloadscripts if there was any REGISTERED users on the hub
+- fixed lack of memory buffer in odch::get_connection - problems with !ui and !myinfo 
+
+0.241
+- added removing users sending spaces in connection type in MyINFO (caused hub crashes)
+- corrected !op command for REGISTERED type (now it works)
+
+0.240
+- fix bug with blocking registered users if ipbanned (hub too busy) 
+- removed showing some strange users on nicklist (changed MyINFO structure from botnick/opchatnick) 
+- some small changes to !set botnick/opchatnick function 
+- fixed bugs in min_share,min_op_share,min_reg_share 
+- added new classes: PROTECTED, REG, VIP, KVIP based on prefixes (protprefix, regprefix, vipprefix, kvipprefix) 
+- added min_reg_share, min_vip_share, min_kvip_share 
+- added some missing pm notifications to banned users 
+- added !op command - possibility of temporary opping someone (until he quits) 
+- corrected behaviour of bot and opchat
+
+0.239
+- added possibility of using wildcards in ip bans
+- added botnick and opchatnick to userlist
+- removing processing connection types, just forwarding it (saves some resources and shows all connections correctly)
+- changed !getmotd to !motd and made this command available for all users 
+- changed all <Hub-Security> to botnick 
+- adding private message kicks/bans notifications from botnick 
+- making chat for ops/admins through opchatnick
+
+0.238
+- fixed ignoring REGULAR users by the scripts if default_pass is set (some very old Open DC Hub bug - thanx for wiXed for noticing it)
+- small colours correction when creating admin account while creating reglist
+
+0.237
+- fixed bug with wrong recognising StrgDC++ tag (too small buffer for V: tag)
+- fixed bug with not-recognising last entry in allowed_clients as allowed client (default: StrgDC++)
+- re-added missing max_users to !getconfig
+- updated documentation
+
+0.236
+- added hublistnick no tag ban exception 
+- banwords - words stored in file, when hub detects main chat/pm message containing one of them, it bans user and block the message from being send(new commands: !addbw, !rembw, !getbwlist) 
+- not-storing parting data if hub is shutting down (it caused that hub's exit time was long) 
+- some cleanings and fixes in gag, block, deny_pm_http and seen functions 
+- added "Modem" and "Unknown" connection types 
+- added botnick (default: Security) and hublistnick (default: {HubListPinger}) to config file
+- botnick is sending banmsg and regonlymsg from now
+
+0.235
+- removed bug that caused kicking DC++ 0.68 users
+- removed bug that caused kickning users with second "<>" in TAG (DC++ mods)
+- removed some warnings while compiling commands.c
+
+0.234
+- fixed banning parent_process for lack of tag 
+- added kicks after redirects for fake clients that don't support $ForceMove 
+- sending info to unregistered users when mute_unregistered is 1,2,3 
+- allowed clients 
+- minimium DC++ version
+
+0.233
+- fixed bug with $MyINFO spam from ipt ($Script) user 
+- fixed lack of sending real share instead of hidden to hub and script (but no to other users)
+
+0.232
+- maxhubs, minslots, maxslots for (all clients) affecting unregistered users (ban 10 minutes)
+- permbanning for lack of TAG description for unregistered users
+- kicking for forbidden nickname-start characters for unregistered users (default: !#)
+- add some hub start default variables
+- some default /dev/null redirects for unwanted users
+
+0.231
+- no more freezed processes after !reloadscripts
+- removed some old unused variables and codes 
+- some cosmetic fixes
+- added news command for ops/admins - !gagip, !ungagip, !ipgaglist - possibility of permanent IP gag of unregistered user
+- added whole latest DB set to the directory in the DB Hub package
+
+0.230
+- fixed bug in flood detector which can crash hub since version 0.216 (thx to XphaN for help)
+- fixed bug in !quitprogram - kills all processes (no freezed script processes)
+- added showing info about banning user with !ban command
+
+0.226
+- fixed !massmessage bug, which could cause huge problems in versions 0.213-0.225
+
+0.225
+- added proper processing and sending new DC++ 0.68+ connection types (which ODCH 0.7.15 do not do)
+
+0.224
+- fixed bug with not sending ALL strings to SCRIPT user from user gagged from chatting (only main chat messages now)
+
+0.223
+- not sending main chat message to the SCRIPT if user is gagged from chatting 
+- added !me command to the hub 
+- added away feature to the hub (moving it from the bot to the hub) 
+- added some ban commands to the hub: 
+!ban 'user' 'reason' - permban ip and nick of online unregistered user 
+!banip 'ip' 'time' - permban or tempban ip of any user 
+!bannick 'nick' 'time' - permban or tempban nickname of any user
+where time can be two digits and letter eg: 48=48 seconds, 56m=56 minutes, 2h=2 hours, 11d=11 days
+
+0.222
+- added !uptime command 
+- added !set show_uptime command - ability of disabling uptime from hub (bot at !uptime command and at connect to the hub) 
+- removed buggy fake share detector 
+- added !seen feature to hub 
+- added !set seen_class - whose part info we want to store: 0-all users,1-all except regular,2-ops and admins only
+- fixed small mistake in !massmessage function
+
+0.221
+- added !set hide_opshare function - hides ops/admins share at connect to the hub
+- updated documentation
+
+0.220
+- fixed gag function bug causes 40-50% cpu usage
+- added !set deny_pm_http - kicks for http pm addresses from unregistered users
+- updated documentation
+
+0.219
+- fixed bug with no blocking pm messages from gagged users and doubled messages to admin
+- added gag/mute_unregistered blocking priv messages when users try to pm to not-opped user
+
+0.218
+- added missing end string to !massmessage command
+- rebuilded !gag/!ungag/!getgaglist functions
+- added new !set mute_unregistered function - limits newly connected unregistered users (blocking: 0-none,1-chat,2-search and download,3-all)
+- removed broken odch::gag functions called from the script
+- added !gagall and !ungagall admin functions
+
+0.217
+- fixed bug with not killing Script processes at !quitprogram
+- fixed bug with sending PM banmsg/regonlymsg (no redirection)
+- fixed bug causing hub crash after detecting PM spam
+- fixed sending correct "Hub uptime" and "Time to unban" time strings (some servers with older libraries don't show it properly) [thanx to objavitel for help]
+
+0.216
+- changed sending tags also to REGISTERED users if !set hidetags = 1 
+- added 3 seconds of blocking pm messages after sending !massmessage command - prevent from flooding user who used command by away messages 
+- added new antiflooder bases on buffor lenght not nickname 
+- modified old antiflooder to work more effective
+
+0.215
+- added creating owner account when creating reglist (eg: when firing hub first time)
+- removed telnet administration [security and inconvenience]
+- removed hub linking [this is searching only, very unusable]
+- set crypt_enable to 0 by default
+- removed min_version [obsolete, unusable]
+- added fake shares detection, banning them and send info to ops/admins
+- cleaned and updated !commands and !getconfig output
+- added some colors to console messages output
+- removed OP permissions (setting default permissions)
+- added erasing main chat/pm spam addresses from unregistered user [ban spam user, report to ops/admins]
+- updated documentation (stored into Documentation directory)
+- added DarkBot latest script to Samplescripts directory
+
+0.214
+- fixed bug in SR function which I've unfortunatelly done in 0.213
+- !block/!unblock main/pm/download/search function is now stored in config file and settings are saved and work after hub restart
+
+0.213
+- !massmessage is now send frou user who is using this command, not from Hub-Mass-Message user
+- !block functions were fixed, done better and are no more affecting ops/admins 
+
+0.212
+- fixed bug in my_info function causin growing cpu eating with new users
+- fixed bug with not sending motd to registered users if they're nickbanned
+
+0.211
+- fixed erasing hidden share by another MyInfo string
+
+0.210
+- fixed odch::set_variable function for SCRIPT user
+- added sending private ban/regonly msgs from bot to user with hub_name included
+
+0.209
+- fixed bug causing not sending data_to_user string and perhaps some other bugs too
+- fixed lack of sending TAGs to ops
+
+0.208
+- bugfix: Tag is now send to Script and Forked users if !set hidetags 1
+
+0.207
+- corrected adding away flag in MyINFO after using !away command (it's not erased by another MyINFO)
+- added min_reg_share, min_op_share
+- removing empty lines in !getconfig
+- added 10 redirect_host chosen randomly instead of one
+
+0.206
+- fixed bug in !ungag command (removes an extra space from the end))
+- !away and !back commands send status flag to users (in Valknut, StrongDC++ this causes adding "shadows" to user in nicklist, standard DC++ doesn't support this!)
+
+0.205
+- changes to send_user_info() user send MyINFO ALL string (to all not only to himself) automatically after typing !hide/!unhide command
+- applied patch for buffer overflow in RedirectAll command (by Donato Ferrante)
+
+0.204
+- search exludes users with hidden share (!hide command)
+
+0.203
+- added showing hub uptime when user connect (between hub soft info and motd)
+
+0.202
+- added !set hidetags command for admins - hiding tags for regular/registered users - saves some cpu/memory resources
+
+0.201
+- !hide/!unhide command for ops/admins showing that they are sharing 0 bytes in the nicklist (but search, filelist and download work well)
+
+0.200
+- renamed to 0.2xx to separate new updates
+- added new !block/!unblock command for main,pm,download,search eg. !block main - blocks main chat etc for admins
+
+0.135
+- added motd message to the hub soft message at connect - causes addin your motd to the Welcome Message at hublist.org
+- fixed stupidity of sending motd to banned users (only ban message now) and to unregistered users if hub is registered_only (only regonly message now)
+
+0.134
+- redirect_host affects unregistered users when registered_only = 1 (redirection)
+- fixed bug with disconnecting users with no-opendchub standard connection type (new dc++ 0.68 or later and Valknut's Microwave and Wireless)
+
+0.133
+- added !set regonlymsg - message shown when hub is only for registered users
+- registered users can join the hub despite it's full
+- fixed topic removal with !untopic and "!set topic " commands
+
+0.132
+- hub shows time for unban if user is temporary IP-banned or NICK-banned 
+- if user is IP-banned or NICK-banned he is redirected to host stored in config file (admin can set it using !set redirect_host command)
+- fixed bug in showing that !set banmsg has been changed
+
+0.12
+- registered users can join the hub if they are IP-banned
+- new anti-flood killer 
+- possibility of setting self-refreashable topics! [using !set topic or !topic command] 
+- possibility of setting ban message [!set banmsg] - you do not have to edit source anymore
+- cutting chat messages to selected amount of bytes [!set cut_string_to] and abillity of setting if registered users' messages will be cut too [!set cut_reg_msg]
