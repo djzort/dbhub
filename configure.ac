@@ -122,7 +122,6 @@ if test "$want_perl" = "yes";then
 		#endif
 		]])
 		AC_CHECK_LIB([perl],[perl_run],,LIBPERL_MISSING="true";HAVE_PERL="false")
-		AC_CHECK_FILE("$perl_loader", [AC_SUBST(perl_ldd) HAVE_DYNLOAD="yes"], HAVE_DYNLOAD="no";HAVE_PERL="false")
 	else
 		HAVE_PERL="false"
 	fi
