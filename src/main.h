@@ -430,7 +430,7 @@ int 	brokensr;		/* 1 means share record was broken */
 char  	recordshstr[120];
 char  	recordusstr[120];
 
-char 	clocknick[21];
+char 	clocknick[50];
 
 //DB// Pointers that count various things and display them in !ui command to admins/owners
 long long blocked_pm;

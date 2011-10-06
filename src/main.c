@@ -506,7 +506,7 @@ void alarm_signal(int z){
 void alarm_handler(void)
 {
 	struct sock_t *human_user;
-	char sometxt[151];
+	char sometxt[250];
 	char somerec[21];
 	char showrec[251];
 	char recpath[MAX_FDP_LEN+1];

@@ -313,7 +313,7 @@ void chat(char *buf, struct user_t *user)
 	char kg2user[51];
 	char largestring[501];
 	char msgl[801];
-	char bigstring[1001]; 
+	char bigstring[4096];
 	char tempstring[151];
 	char nick[51];
 	char phrase[51];
