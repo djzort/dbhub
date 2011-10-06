@@ -1,0 +1,410 @@
+<html><body>
+<center><font size=5><b>--- !set variable value ----</b></font></center><br>
+<hr>
+<b>allowed_clients</b> - the list of clients allowed to connect to the hub  (basing on TAG description eg. DC++ tag is "++")<br>
+note: '!set allowed_clients ' (one space after allowed_clients) disables client checking at all (all clients are allowed to connect)<br>
+<hr>
+<b>autofav</b> - a frequency of sending auto-fav message (stored in 'autofav' file, which can be set with !set autofavmsg command) to all unregistered users, it is sending every autofav * hub_timer (default: 15 minutes) minutes<br>
+note: 'set autofav 0' disables sending of 'autofavmsg' message at all<br>
+<hr>
+<b>ban_overrides_allow</b> - stresses if ban entry is stronger that allow entry<br>
+0 - allow entry is stronger than ban entry [default]<br>
+1 - ban entry is stronger that allow entry<br>
+<hr>
+<b>banmsg</b> - message send to banned user while trying to log in<br>
+<hr>
+<b>botnick</b> - nickname for main bot sending all messages to users (default: Security)<br>
+<hr>
+<b>check_class</b> - stresses which classes will be checked for information stored in TAG<br>
+0 - REGULAR [default]<br>
+1 - REGULAR, REG<br>
+2 - REGULAR, REG, VIP<br>
+3 - REGULAR, REG, VIP, KVIP<br>
+4 - REGULAR, REG, VIP, KVIP, OP<br>
+<hr>
+<b>config_on_priv</b> - sending !getconfig (hub settings) output to admins as a private message from botnick instead of main chat message<br>
+0 - off [default]<br>
+1 - on<br>
+<hr>
+<b>connlimit</b> - the lowest limit of upload bradwith user can set without being kicked (default 10 kB/sec)<br>
+note: works with tag B:, L: and NetLimiter connection type<br>
+<hr>
+<b>count_reghubs</b> - adds counting hubs where user is registered to all hubs (normal+registered, without opped -&gt; H:n/r/o) while checking for maxhubs<br>
+<hr>
+<b>crypt_enable</b> - crypting passwords in 'reglist' file<br>
+0 - none, human-readable passwords [default]<br>
+1 - password will be crypted<br>
+warning: after switching that all old password will not work! it's recommended to set this at the first running of hub<br>
+<hr>
+<b>cut_reg_msg</b> - cuts also too long main chat messages of REGISTRED users to !set to cut_string_to characters<br>
+<hr>
+<b>cut_string_to</b> - maximum number of characters that can be send by unregistered user to main chat(longer messages will be cut)<br>
+<hr>
+<b>default_pass</b> - if set, unregistered users will be prompted for that password (pass) while logging in<br>
+<hr>
+<b>default_prefixes</b> - if set, unregistered users' nicknames will have to contain one of the prefixes you can type here (separated by spaces)<br>
+<hr>
+<b>deny_passive</b> - restrictions for the users with M:P and M:5 in TAG<br>
+0 - no restrictions [default]<br>
+1 - kick<br>
+2 - kick if nickname doesn't contain 'psv' string<br>
+note: checking depends on check_class<br>
+<hr>
+<b>deny_pm_http</b> - kicking users using http:// string in private messages and reporting it to ops/admins<br>
+0 - off [default]<br>
+1 - on, kicking for any pm http://<br>
+2 - on, kicking after 5 pm messages from one user (good for adultfinder spammers)<br>
+note: checking depends on check_class<br>
+<hr>
+<b>deny_proxy</b> - kicking users for proxy connections (M:5)<br>
+0 - off [default]<br>
+1 - on<br>
+note: checking depends on check_class<br>
+<hr>
+<b>expiredrls</b> - time of expiration entries added to release database (in days)<br>
+note: after changing that, expration time of old entries isn't changed<br>
+note: setting to 0 means no expiration<br>
+<hr>
+<b>expiredseen</b> - time of expiration entries stored in seen database (in days)<br>
+note: after changing that, expration time of old entries isn't changed<br>
+<hr>
+<b>expiredtime</b> - time of unused account expiration (in days)<br>
+note: resetted every time registered user is logging in<br>
+note: after changing that, expration time of old entries isn't changed<br>
+note: setting to 0 means no expiration<br>
+<hr>
+<b>expiredurl</b> - time of URL expiration (in days)<br>
+note: after changing that, expration time of old entries isn't changed<br>
+note: setting to 0 means no expiration, no recommended<br>
+<hr>
+<b>expirewarn</b> - time of warning expiration (in days)<br>
+note: after changing that, expration time of old entries isn't changed<br>
+note: setting to 0 means no expiration, no recommended<br>
+<hr>
+<b>freeaccess</b> - temporary unrestricted access for unregistered users when registered_only is set to 1<br>
+free access period is in x-y format, where x is the hour and y is the period eg. 14-2 means free access from 14:00 to 16:00<br>
+note: works probably only with 24-hour based clock on server<br>
+<hr>
+<b>forbchars</b> - first letter of unregistered user's nickname cannot be any of the character set there (default: !#)<br>
+<hr>
+<b>gag_on_minshare</b> - gagging users who don't have enough data shared from searching and downloading instead of kicking or redirecting<br>
+<hr>
+<b>help_on_priv</b> - sending !help output as a private message from botnick instead of main chat message<br>
+0 - off [default]<br>
+1 - on<br>
+<hr>
+<b>hide_opshare</b> - hiding sharesize of ops/admins while logging in and exclude them for searches<br>
+0 - off [default]<br>
+1 - on<br>
+note: files from that users can be downloaded after downloading user's filelist<br>
+<hr>
+<b>hub_full_mess</b> - message send to users who can not enter the hub because of too many connected users<br>
+note: see max_users<br>
+<hr>
+<b>hublist_upload</b> - period of sending information to public_hub_host<br>
+0 - disabled<br>
+note: number*15 minutes eg. 1=15 minutes, 2=30 minutes etc.<br>
+<hr>
+<b>hublistnick</b> - nickname for hublist.org pinger (except its from all checking)<br>
+<hr>
+<b>hublistpass</b> - password for hublist.org pinger<br>
+warning: the same password has to be set first on hublist.org (in hub owner mode), otherwise access for pinger will be denied<br>
+<hr>
+<b>hublistsite</b> - if pinger is registered on hublist.org and if hublistpass is set, you can set also linkt to your hub's site on hublist.org so users will be informed when pinger is checking the hub<br>
+<hr>
+<b>ipgag_type</b> - gag type for ipgagged (with !gagip command) users<br>
+0 - gag from chatting [default]<br>
+1 - gag from searching and downloading<br>
+2 - gag from chatting, searching and downloading<br>
+<hr>
+<b>hidetags</b> - hide sending $MyINFO's TAGs, description and email to unregistered users<br>
+0 - off [default]<br>
+1 - on<br>
+note: the purpose of hiding TAGs is to save hub resources<br>
+<hr>
+<b>hub_description</b> - short description of your hub, visible on hublists<br>
+<hr>
+<b>hub_hostname</b> - IP/hostname of server with hub (without port), hub set it by default while first running, maximum 100 characters<br>
+<hr>
+<b>hub_name</b> - just the name of your hub, maximum 60 characters<br>
+<hr>
+<b>kick_bantime</b> - time of tempban after kicking user from nicklist if no _ban_xx in reason was added<br>
+<hr>
+<b>kvipprefix</b> - nickname prefix for REGISTERED/KVIP users<br>
+<hr>
+<b>link_pass</b> - password for hub linking (has to be the same on all linking hubs)<br>
+<hr>
+<b>listening_port</b> - port accepting users' connections to the hub<br>
+note: ports below 1024 are reserved for root user only by default<br>
+<hr>
+<b>log_main_chat</b> - logging main chat and storing in logs/ directory (useful for stats eg. pisg)<br>
+0 - off<br>
+1 - on [default]<br>
+<hr>
+<b>max_desc_len</b> - maximum lenght of user's description<br>
+note: description includes TAG<br>
+<hr>
+<b>max_email_len</b> - maximum lenght of user's e-mail<br>
+<hr>
+<b>max_regular_from_one_ip</b> - maximum number of users with the same IP on hub (clones searching and kicking)<br>
+note: 0 = unlimited<br>
+note: not recommended on bigger hubs - can slower them<br>
+note: gives 1 minute IP tempban<br>
+<hr>
+<b>max_releases_to_show</b> - maximum number of newly added releases to show when user is logging in<br>
+note: requires !set show_releases 1<br>
+<hr>
+<b>max_share</b> - maximum sharesize for unregistered users in GiB (fake avoiding)<br>
+<hr>
+<b>max_users</b> - maximum number of users who can stay at the hub at the same time<br>
+note: only unregistered users are counted<br>
+<hr>
+<b>max_warnings</b> - number of warnings allowed before being kicked<br>
+note: max_warning + 1 = kick, max_warning + 2 = gag from chatting/searching/downloading<br>
+<hr>
+<b>maxhubs</b> - maximum number of hubs user is allowed to be connected to<br>
+note: checking depends on check_class<br>
+note: see count_reghubs<br>
+<hr>
+<b>maxslots</b> - maximum number of upload slots user can open<br>
+note: checking depends on check_class<br>
+<hr>
+<b>min_nick_len</b> - minimum nickname lenght for unregistered users<br>
+<hr>
+<b>min_search_len</b> - minimum search lenght, default 3 characters (can save some brandwidth on bigger hubs)<br>
+<hr>
+<b>min_share</b> - minimum share for REGULAR users in bytes<br>
+note: can be set easier with !set min_share x GB, !set min_share x MB<br>
+<hr>
+<b>min_reg_share</b> - minimum share for REG users in bytes<br>
+note: can be set easier with !set min_reg_share x GB, !set min_share x MB<br>
+<hr>
+<b>min_vip_share</b> - minimum share for VIP users in bytes<br>
+note: can be set easier with !set min_vip_share x GB, !set min_share x MB<br>
+<hr>
+<b>min_kvip_share</b> - minimum share for KVIP users in bytes<br>
+note: can be set easier with !set min_kvip_share x GB, !set min_share x MB<br>
+<hr>
+<b>min_op_share</b> - minimum share for OP users in bytes<br>
+note: can be set easier with !set min_op_share x GB, !set min_share x MB<br>
+<hr>
+<b>mindcppver</b> - minimum version of DC++ allowed to enter the hub<br>
+<hr>
+<b>minslots</b> - number of minimum required upload slots<br>
+note: checking depends on check_class<br>
+<hr>
+<b>mute_unregistered</b> - restrictions for logging in unregistered users<br> 
+0 - no restrictions [default]<br>
+1 - user can't chat except pm with ops/admins<br>
+2 - user can't search and download<br>
+3 - user can't search, download and chat except pm with ops/admins<br>
+note: user can always user these commands: +rules, +regme, +protectme<br>
+<hr>
+<b>no_chat_for_chatgagged</b> - non sending main chat messages, +me output and last 10 main chat messages to chat-gagged users<br>
+0 - off [default]<br>
+1 - on<br>
+<hr>
+<b>no_tag_ban</b> - banning user who don't have proper TAG description<br>
+0 - off<br>
+1 - on [default]<br>
+note: checking depends on check_class<br>
+<hr>
+<b>offline_msgs</b> - restrictions of leaving offline messages for users (!msg to offline user)<br>
+0 - feature is disabled, noone can leave messages<br>
+1 - unregistered users can not leave messages<br>
+2 - all users can leave messages [default]<br>
+<hr>
+<b>op_can_reg</b> - can ops create REG accounts using !addreg commands<br>
+0 - off [default]<br>
+1 - on<br>
+<hr>
+<b>op_can_topic</b> - can ops set the hub topic?<br>
+0 - off [default]<br>
+1 - on<br>
+<hr>
+<b>opchatnick</b> - nickname for op chat - special place for ops and admins who can communicate sending private messages to opchatnick's (default: OpChat)<br>
+<hr>
+<b>partmsg</b> - information shown when registered user is leavig the hub<br>
+note: requires show_welcomes 1 or 2<br>
+note: requires also non-empty welcomereg (welcomevip etc.), otherwise partmsg won't be send<br>
+<hr>
+<b>protection</b> - abbility of self-registering (as PROTECTED users) for unregistered users using !protectme 'password' commands<br>
+0 - off [default]<br>
+1 - on<br>
+<hr>
+<b>protprefix</b> - nickname prefix for REGISTERED/PROTECTED users<br>
+<hr>
+<b>prottime</b> - time of expiration of accounts of self-registered PROTECTED users (in days)<br>
+<hr>
+<b>public_hub_host</b> - hublist address - recommended is reg.ancient.pl<br>
+note: hublist port - 2501 is added automatically<br>
+<hr>
+<b>punishment</b> - punishment type after any tempban or kick and when IP or nikname of logging in user is banned<br>
+0 - kick only<br>
+1 - redirect to redirect_host0-9 (randomly), if not set redirecting to dev.null:1234 [default]<br>
+<hr>
+<b>ratio</b> - maximum number of hubs per one slot allowed<br>
+note: checking depends on check_class<br>
+note: see reverse_ratio<br>
+<hr>
+<b>redirect_host0 ... redirect_host9</b> - addresses of hubs where kicked/banned users will be redirected to<br>
+note: redirect_host is choosen randomly, but if the chosen one is empty hub uses redirect_host0 (main redirect_host)<br>
+note: if redirect_host0 is empty hub redirects user to fake address: dev.null:1234<br>
+note: requires !set punishment 1<br>
+<hr>
+<b>registered_only</b> - denies access to hub for unregistered users and sends them regonlymsg message<br>
+0 - off [defult]<br>
+1 - on<br>
+<hr>
+<b>regme_on_priv</b> - sending !regme (registration rules) output as a private message from botnick instead of main chat message<br>
+0 - off [default]<br>
+1 - on<br>
+note: registration rules are stored in 'regme' file in .opendchub directory, you can set/change it with !set regme command<br>
+<hr>
+<b>regonlymsg</b> - message send to unregistered users if registered_only is set 1<br>
+<hr>
+<b>regprefix</b> - nickname prefix for REGISTERED/REG users<br>
+<hr>
+<b>restrictions</b> - restrictions for users<br>
+0 - no restrictions [default]<br>
+1 - user can search and download files only from class equal of lower than his/her class<br>
+2 - unregistered users can not search and download files from registered users<br>
+<hr>
+<b>restrict_mode</b> - kicking users with 'psv' string in nicknames and M:A in TAG<br>
+0 - off [default]<br>
+1 - on<br>
+<hr>
+<b>reverse_dns</b> - using hostnames instead of IP addresses (using DNS server)<br>
+0 - off [default]<br>
+1 - on<br>
+warning: setting to 0 is recommended, switching it on will slower your hub!<br>
+<hr>
+<b>reverse_ratio</b> - changes counting ratio from hubs per one slot to slots per one hub<br>
+0 - off [default]<br>
+1 - on<br>
+<hr>
+<b>rls_on_priv</b> - sending !getrls (list of last added releases) output as a private message from botnick instead of main chat message<br>
+0 - off [default]<br>
+1 - on<br>
+<hr>
+<b>rules_on_priv</b> - sending !rules (hub rules) output as a private message from botnick instead of main chat message<br>
+0 - off [default]<br>
+1 - on<br>
+note: rules are stored in 'rules' file in .opendchub directory, you can set/change it with !set rules command<br>
+<hr>
+<b>searchspam_time</b> - time in seconds between sending two search requests<br>
+<hr>
+<b>seen_class</b> - minimum class that info is stored in seen database<br>
+0 - all classes [default]<br>
+1 - REGISTED, OP, OP_ADMIN<br>
+2 - OP, OP_ADMIN<br>
+<hr>
+<b>self_registration</b> - abbility of self-registering (as REG users) for unregistered users using !regme 'password' commands<br>
+0 - off [default]<br>
+1 - on<br>
+<hr>
+<b>show_himsg</b> - sending welcome message with IP to user who is logging in<br>
+0 - off<br>
+1 - on [default]<br>
+<hr>
+<b>show_joinsparts</b> - showing joins/parts of users to admins<br>
+0 - off [default]<br>
+1 - to main chat<br>
+2 - as a private message from botnick<br>
+<hr>
+<b>show_kicksbans</b> - showing kicks/bans of users to admins<br>
+0 - off [default]<br>
+1 - to main chat<br>
+2 - as a private message from botnick<br>
+<hr>
+<b>show_lastmsgs</b> - showing "Last 10 main chat messages" to newly connected users<br>
+0 - off<br>
+1 - on [default]<br>
+<hr>
+<b>show_onjoinmsg</b> - showing the info about basic commands in MOTD<br>
+0 - off<br>
+1 - on [default]<br>
+<hr>
+<b>show_records</b> - showing hub share and users records in MOTD<br>
+0 - off<br>
+1 - on [default]<br>
+<hr>
+<b>show_releases</b> - showing last added releases to newly connected users<br>
+0 - off<br>
+1 - on [default]<br>
+note: see max_releases_to_show<br>
+<hr>
+<b>show_uptime</b> - showing hub uptime in MOTD<br>
+0 - off<br>
+1 - on [default]<br>
+<hr>
+<b>show_welcomes</b> - sending welcomes to registered users to main chat<br>
+0 - off<br>
+1 - on, stable [default]<br>
+2 - on, random<br>
+note: stable are: welcomereg, welcomevip, welcomekvip, welcomeop, welcomeadmin (send if not empty)<br>
+note: random welcomes can be added by !addwelcome command<br>
+note: random welcomes requires also non-empty welcomereg (welcomevip etc.) values even that hub doesn't use them, otherwise welcome won't be send<br>
+<hr>
+<b>slotbeg_kicker</b> - kicking unregistered users for "slot" word written to someone's pm<br>
+0 - off [default]<br>
+1 - on<br>
+<hr>
+<b>tempban</b> - temporary ban (in minutes) for maxhubs/minslots etc.<br>
+note: if set to 0, kick only<br>
+<hr>
+<b>topic</b> - hub topic, shown on user's client titlebar and send to hublist<br>
+note: recommended changing with !topic command<br>
+<hr>
+<b>url_on_priv</b> - sending !geturl (grabbed URL) output as a private message from botnick instead of main chat message<br>
+0 - off [default]<br>
+1 - on<br>
+<hr>
+<b>users_per_fork</b> - maximum number of users per one process on the server, default is 1000, not recommended to change that<br>
+<hr>
+<b>vipprefix</b> - nickname prefix for REGISTERED/VIP users<br>
+<hr>
+<b>verbosity</b> - level of logging variable hub information, useful for debugging (default is 0 - minimal logging)<br>
+note: verbosity 3 is a special (with functions view)<br>
+note: verbosity 5 is max logging (with protocol view)<br>
+<hr>
+<b>welcomeadmin</b> - welcome for OP_ADMIN users send to all users while OP_ADMIN user is logging in<br>
+note: there is no welcome if it's empty<br>
+note: requires !set show_welcomes 1<br>
+<hr>
+<b>welcomereg</b> - welcome for REG users send to all users while REG user is logging in<br>
+note: there is no welcome if it's empty<br>
+note: requires !set show_welcomes 1<br>
+<hr>
+<b>welcomevip</b> - welcome for VIP users send to all users while VIP user is logging in<br>
+note: there is no welcome if it's empty<br>
+note: requires !set show_welcomes 1<br>
+<hr>
+<b>welcomekvip</b> - welcome for KVIP users send to all users while KVIP user is logging in<br>
+note: there is no welcome if it's empty<br>
+note: requires !set show_welcomes 1<br>
+<hr>
+<b>welcomeop</b> - welcome for OP users send to all users while OP user is logging in<br>
+note: there is no welcome if it's empty<br>
+note: requires !set show_welcomes 1<br>
+<hr><br><br><center><font size=5><b>--- !block/!unblock main/pm/download/search ----</b></font></center><br>
+<hr>
+<b>!block main</b> - blocks sending messages to main chat for non-opped users (useful while flooding attacks)<br>
+<hr>
+<b>!block pm</b> - blocks sending private messages for non-opped users<br>
+<hr>
+<b>!block search</b> - blocks searching for non-opped users<br>
+<hr>
+<b>!block download</b> - blocks downloading for non-opped users<br>
+<hr>
+<b>!unblock main</b> - unblocks sending messages to main chat for non-opped users<br>
+<hr>
+<b>!unblock pm</b> - unblocks sending private messages for non-opped users<br>
+<hr>
+<b>!unblock search</b> - unblocks searching for non-opped users<br>
+<hr>
+<b>!unblock download</b> - unblocks downloading for non-opped users<br>
+<hr>
+<br><br>
+last update: 13 Nov 2006<br>
+</body></html>
