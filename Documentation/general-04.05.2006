@@ -1,0 +1,179 @@
+Open DC Hub
+
+Installation:
+Follow the generic installation instructions in INSTALL. To build without
+Perl script support, add the argument --disable-perl to configure.
+
+If you want to be able to switch user on startup, use the 
+--enable-switch_user argument to configure. 
+
+
+More information about how to write scripts for opendchub is contained in the
+file scriptdoc.
+
+
+
+The command line arguments available are:
+
+-d          : Makes the hub print the log to the console instead of running in 
+	      the background.
+-h  	    : Prints a brief help and exits.
+--version   : Prints the version of the program.
+-l <logfile>: Sets the path to the logfile.
+-s          : Uses syslog instead of a logfile.
+-w  <path>  : Sets the path to the working directory. This directory will
+    	      contain a tmp directory and the .opendchub directory with
+	      the config files.
+	      
+These options are also available if you have enabled switch user mode:
+
+-u <user>   : Run as this user.
+-g <group>  : Run as this group.
+
+
+
+
+Administration through chat:
+
+It is also possible to administer the hub through the chat in Direct Connect.
+To do that, a user has to be registered as an OP Admin, i.e, the op digit has
+to be set to 2. The commands are the same as follows, with the difference 
+that they start with a '!' instead of a '$' and they shouldn't be terminated
+with a '|'.
+
+
+Here is a description of the admin commands. These commands also works in the 
+chat. To use them in chat, replace the '$' with at '!' and skip the '|':
+
+!set <variable> <value>
+Sets a value in the config file. The config file is located in the
+.opendchub directory, which is located in the root of your home directory.
+The variables are explained in configfiles, in the Documentation directory. The
+program must be run once first to create the config file.
+The motd is placed in a file of it's own. To change the motd, use "$Set motd".
+Do not use the '|' sign inside the motd. You won't be able to put them in there
+with the $Set command, and if you edit the motd file by hand, '|' signs will
+confuse the clients.
+When setting the min_share value, it's possible to specify the minimum share
+in Bytes, MegaBytes and GigaBytes. For example, to set the minimum share to
+500 MegaBytes, you would type:
+$set min_share 500 MB|
+And to set it to 5 GigaBytes:
+$set min_share 5 GB|
+
+!allow <ip or hostname> <time>
+Adds an entry to the allowlist. This file works like the opposite of 
+banlist, i.e, the entries in this file are allowed to the hub. Explained more 
+detailed in configfiles.
+
+!getbanlist
+Displays the banlist file.
+
+!getallowlist
+Displays the allowlist file.
+
+!getnickbanlist
+Displays the nickbanlist file.
+
+!unban <ip or hostname>
+Removes an entry from the banlist file. The entry in the file must be an 
+exact match of the one provided in the command.
+
+!unallow <ip or hostname>
+Removes an entry from the allowlist file.
+
+!unnickban <nickname>
+Removes an entry from the nickbanlist file.
+
+!addreguser <nickname> <password> <op>
+Adds a user the the regfile. if 'op' is 1, the user is op, which allows user 
+to use the dedicated op commands, for example $Kick. If 'op' is 2, the user
+also gets privileges to administer the hub through the chat. If 'op is 0, 
+the user is an ordinary registered user with no special privileges.
+
+!getreglist
+Displays the reglist.
+
+!removereguser <nickname>
+Removes a user from the reglist.
+
+!getconfig
+Displays the config file.
+
+!getmotd
+Displays the motd file.
+
+!quitprogram
+Terminates the program. Has the same effect as sending term signal to the 
+process, which also makes the hub shutting down cleanly.
+
+!redirectall <ip or hostname>
+Redirects all users to 'ip or hostname'.
+
+!gethost <nickname>
+Displays the hostname of user with nickname 'nick'.
+
+!getip <nickname>
+Displays the ip of user with nickname 'nick'.
+
+!massmessage <message>
+Sends a private message to all logged in users.
+
+!reloadscripts
+Kills the current running scripts and loads the ones in the script
+directory.
+
+!hide 
+Hides your share. 
+
+!unhide 
+Unhides your share. 
+
+!away 
+Toggles away mode on. 
+
+!back 
+Toggles away mode off. 
+
+!gag 'nick' 'gag type' 
+Available gag types: chat, download, search, (blank=all)
+
+!ungag 'nick' 
+Removes the gag from a user. 
+
+!gagall
+Gags all users except admins.
+
+!ungagall
+Ungags all users.
+
+!getgaglist 
+Shows all gagged users. 
+
+!block main/pm/search/download 
+Locks main chat, priv messaging, searching or downloading. 
+
+!unblock main/pm/search/download 
+Unlocks main chat, priv messaging, searching or downloading. 
+
+!commands
+Displays all available admin commands.
+
+!gagip 'ip'
+Gags permanently selected IP of unregistered user from chatting
+
+!ungag 'ip'
+Ungags selected IP.
+
+!ipgaglist
+List of gagged IPs.
+
+!addbw 'phrase'
+Adds selected phrase to ban word list
+
+!rembw 'phrase'
+Removes selected phrase from ban word list
+
+!getbwlist
+List of banned phrases.
+

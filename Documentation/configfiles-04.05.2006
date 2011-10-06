@@ -1,0 +1,59 @@
+Here follows an explanation of all the config files, and their variables. 
+Editing the configuration files by hand is not advisable. Instead, use the 
+proper command to add, remove or change entries in the files.
+
+------------------------------------------------------------------------------
+
+banlist:
+The banlist is a list of ip:s/hostnames that are not allowed in the hub.
+An entry can be a single ip, a subnet, a hostname or a part of a hostname with
+one or several wildcards ('*'). To be able to ban hostnames, reverse_dns has
+to be set to 1. Here follows a few examples:
+
+100.100.100.100        bans that address, and that address only.
+100.100.100.0/24       bans 100.100.100.0 - 100.100.100.255
+100.100.0.0/16	       bans 100.100.0.0 - 100.100.255.255
+badcom.baddomain.com   bans that hostname, and that hostname only.
+*bad*com	       bans all hostnames that contains "bad" and end with
+		       "com".
+*.net		       bans all hostnames that ends with ".net".
+     
+To add and remove entries from the banlist, use the ban and unban commands.
+
+------------------------------------------------------------------------------
+
+allowlist:
+If ban_overrides_allow is set to 0, The entries on this list overrides
+those on the banlist. If you want to ban a whole domain except for one or
+several users, you  would put the domain name in the banlist and the allowed
+users here. For example, "*.baddomain.com" in the banlist and "*goodguy*" here
+would allow "goodguy.baddomain.com" but ban all other hosts on baddomain.com.
+However, if ban_overrides_allow is set to 1, it will work the other way
+around. Then, _only_ the entries on the allowlist will be allowed and if they
+are on the banlist, they will be banned even if they are on the allowlist.
+So, if you only want users on the domain "gooddomain.com" to have access to the
+hub, you would set ban_overrides_allow to 1 and put "*.gooddomain.com" here.
+And if you then want to ban badguy.gooddomain.com, you would put "*badguy*"
+in the banlist. To allow hostnames and not only ips, reverse_dns has to be set
+to 1. To add and remove entries from the allowlist, use the allow and unallow
+commands.
+
+------------------------------------------------------------------------------
+
+reglist:
+A list of registered users in the form <user_name> <password> <opdigit>, where
+opdigit is 2 for op admin, 1 for op and 0 for regular registered users.
+Scripts which are registered in the nicklist will also be registered here with
+a random password. To add and remove users from this list, use the addreguser
+and removereguser command.
+
+------------------------------------------------------------------------------
+
+nickbanlist:
+Contains entries of nicknames that are banned. The bans are case sensitive.
+The '*' character can be used as a wildcard. To ban a nick that contains a 
+'*' or a '\', it has to be escaped with a '\'.
+For example, the banentry "bad*nick" bans all nicknames that start with "bad"
+and end with "nick". Banentry "ba\\dni\*ck" bans "ba\dni*ck", and only 
+"ba\dni*ck".
+
