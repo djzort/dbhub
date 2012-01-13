@@ -1,3 +1,7 @@
+0.452 @ 12.01.2012 <Dean Hamstead>
+- Merged in patches from gentoo
+- Ran aclocal, automake and autoconf again
+
 0.451 @ 02.02.2008 <DarKRaveR>
 - Changed Project URL within Hub to new URL
 - Added new perl-flags processing to fix linking problems on some systems
