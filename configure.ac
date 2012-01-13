@@ -1,5 +1,5 @@
 dnl Process this file with autoconf to produce a configure script.
-AC_INIT([DB-Hub],0.451,,dbhub)
+AC_INIT([DB-Hub],0.452,,dbhub)
 AM_INIT_AUTOMAKE([foreign])
 AM_CONFIG_HEADER(config.h)
 AM_SANITY_CHECK
