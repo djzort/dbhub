@@ -1,5 +1,5 @@
 #!/usr/bin/make -f
 %:
 	dh $@
-
-override_dh_auto_configure	dh_auto_configure -- --enable-perl --enable-switch_uers
+override_dh_auto_configure:
+	dh_auto_configure --enable-perl --enable-switch_user
