@@ -1,1 +1,5 @@
-This is just a dump of 0.451 from sourceforge.net, i have not imported the cvs history at all merely dumped the most recent tar ball.
+I have applied patches from gentoo, run aclocal and automake and autoconf then bumped the version to 0.452.
+
+There is also a .spec file i found somewhere, maybe it will be helpful to people.
+
+The source was originally just a dump of 0.451 from sourceforge.net, i have not imported the cvs history at all merely dumped the most recent tar ball.
