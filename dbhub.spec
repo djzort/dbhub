@@ -1,6 +1,6 @@
 Summary: DB Hub
 Name: dbhub
-Version: 0.451
+Version: 0.452
 Release: 1%{?dist}
 Source0: %{name}-%{version}.tar.gz
 License: GPL
@@ -36,5 +36,7 @@ make DESTDIR="$RPM_BUILD_ROOT" install
 %doc DB-Manual/config.html
 
 %changelog
+* Fri Jan 13 2012 Dean Hamstead <dean@fragfest.com.au> - 0.452-1
+- Bump versions
 * Wed Dec 5 2007 Pavel O. Zhukov <gelios@gmail.com> - 0.450-1
 - new upstream version
