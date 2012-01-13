@@ -7,7 +7,6 @@ Build-Depends: debhelper (>= 7.3.8)
 
 Package: dbhub
 Architecture: any
-Version: 0.452-1
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Description: Thanks for using DB Hub - Direct Connect Server Software.
  DB Hub is a free - please invite your friends for using DB Hub ;-)
